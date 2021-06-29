@@ -4,6 +4,7 @@ import React, { useContext } from "react";
 import LoginForm from "../components/LoginForm/LoginForm";
 import { Context } from "./_app";
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
+import withAuth from "../HOC/withAuth";
 
 const useStyles = makeStyles((theme: Theme) =>
 createStyles({
@@ -73,12 +74,6 @@ createStyles({
 function Home() {
   const classes = useStyles()
   const { store } = useContext(Context)
-
-  if (store.isLoading) {
-    return (
-      <h1>Loading...</h1>
-    )
-  }
   return (
     <>
       <Grid
@@ -104,4 +99,4 @@ function Home() {
   )
 }
 
-export default observer(Home)
+export default observer(withAuth(Home))
