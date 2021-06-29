@@ -3,6 +3,8 @@ import type { AppProps } from 'next/app'
 import Store from '../store/store'
 import { createContext, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import theme from '../theme'
+import { ThemeProvider } from '@material-ui/core'
 
 interface State {
   store: Store
@@ -32,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Context.Provider value={{ store }}>
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>   
     </Context.Provider>
   )
 }

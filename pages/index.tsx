@@ -1,39 +1,78 @@
-import { Box, Container, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Box, Container, createStyles, Grid, makeStyles, Theme, Typography } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import LoginForm from "../components/LoginForm/LoginForm";
 import { Context } from "./_app";
+import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) =>
+createStyles({
   container: {
-    height: "90vh",
-    background: "#f0f2f5"
+    minHeight: "100vh"
   },
-  brandContainer:{
-    height: '100%',
+  brandContainer: {
+    width: "100%",
+    minHeight: '100vh',
+    background: "url('loginImage.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    color: "#FFF",
+    //
+  },
+  brand: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    fontSize: 20,
+    marginBottom: '30px',
+    
+  },
+  titleContainer:{
+    height: "100%",
+    marginLeft: "auto",
     display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center"
+    flexDirection: "column",
+    justifyContent: "center",
   },
-  brand:{
-    maxWidth: "50%",
-    marginBottom: '30px'
+  brandTitle: {
+    padding: "20px 0px",
+    [theme.breakpoints.down('md')]:{
+      fontSize: 60
+    },
+    [theme.breakpoints.down('xs')]:{
+      fontSize: 40
+    }
   },
-  pageTitle:{
-    marginBottom: '10px'
+  brandSubtitle: {
+    [theme.breakpoints.down('md')]:{
+      fontSize: 30
+    }
   },
-  formContainer:{
-    paddingLeft: "50px"
+  formContainer: {
+    width: "100%",
+    minHeight: "100vh",
+    background: "#f5f5f5",
+    display: "flex",
+    alignItems: 'center',
+    justifyContent: "center",
+    flexDirection: "column",
+  },
+  phoneArrow:{
+    position: "absolute",
+    bottom: 20,
+    left: '50%',
+    margin: "0 auto",
+    transform: "translate(-50%,0%)",
+    fontSize: 35,
+    [theme.breakpoints.up('md')]:{
+      display: "none"
+    }
   }
-});
+}));
 
 function Home() {
   const classes = useStyles()
   const { store } = useContext(Context)
-
-  const logout = (e: React.MouseEvent<HTMLButtonElement>) => {
-    store.logout()
-  }
 
   if (store.isLoading) {
     return (
@@ -46,16 +85,16 @@ function Home() {
         className={classes.container}
         container
         direction="row"
-        justify="center"
-        alignItems="center"
       >
-        <Grid item xs={6} className={classes.brandContainer}>
-          <Box className={classes.brand}>
-            <Typography variant="h2" className={classes.pageTitle}>Тут название</Typography>
-            <Typography variant="h5">А тут какой-нибудь мега супер пупер пафосный текст.</Typography>
-          </Box>
+        <Grid item sm={12} md={8} lg={9} className={classes.brandContainer}>
+          <Typography className={classes.brand}>Типа крутой бренд</Typography>
+          <Container className={classes.titleContainer}>
+            <Typography className={classes.brandTitle} variant="h1">В курсе происходящего</Typography>
+            <Typography className={classes.brandSubtitle} variant="h3">Присоединяйтесь к Бренду  прямо сейчас!</Typography>
+            <ArrowDownwardOutlinedIcon className={classes.phoneArrow}/>
+          </Container>
         </Grid>
-        <Grid item xs={6}  className={classes.formContainer}>
+        <Grid item sm={12} md={4} lg={3} className={classes.formContainer}>
           <LoginForm />
         </Grid>
 
