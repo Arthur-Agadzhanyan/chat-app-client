@@ -26,6 +26,20 @@ export default class Store {
         this.isLoading = bool
     }
 
+    async registration(username: string, email:string, password: string){
+        try{
+            const response = await $api.post(`${API_URL}/registration`,{
+                username,password,email
+            })
+            localStorage.setItem('token', response.data.accessToken)
+            
+            this.setUser(response.data.user)
+            this.setAuth(true)
+        }catch(e: any){
+            console.log(e.response?.data?.message)
+        }
+    }
+
     async login(email: string, password: string) {
         try{
             const response = await $api.post(`${API_URL}/login`,{
