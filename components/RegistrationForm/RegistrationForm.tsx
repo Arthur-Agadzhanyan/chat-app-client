@@ -1,7 +1,8 @@
-import { Button, FormControl, makeStyles, TextField, Divider, Typography, Box, createStyles, Theme } from '@material-ui/core';
+import { Button, FormControl, makeStyles, TextField, Divider, Typography, Box, createStyles, Theme, Zoom } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
+import { Alert } from '@material-ui/lab';
 
 interface Form {
     email: string,
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         formLine: {
             margin: '20px 0px'
+        },
+        alert:{
+            marginBottom: 20
         }
     }));
 
@@ -61,6 +65,7 @@ const RegistrationForm = () => {
     const [errors, setErrors] = useState({
         email: false, password: false, username:false
     })
+    const [errorMessage, setErrorMessage] = useState("")
 
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
@@ -76,7 +81,16 @@ const RegistrationForm = () => {
             return setErrors({ ...errors, username: true })
         }
 
-        store.registration(form.username, form.email, form.password)
+        store.registration(form.username, form.email, form.password).then(()=>{
+            if(store.loginErrors){
+                const errorNames = Object.keys(store.loginErrors)
+                const errorValues = Object.values(store.loginErrors)
+                setErrors(prev=>{
+                    return {...prev, [errorNames[0]]: true}
+                })
+                setErrorMessage(errorValues[0])
+            }
+        })
     }
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,6 +100,10 @@ const RegistrationForm = () => {
     return (
         <FormControl className={classes.form}>
             <Typography variant="h4" className={classes.title}>Регистрация</Typography>
+            {errors.email 
+            ? <Zoom in={true}><Alert severity="error" className={classes.alert}>{errorMessage}</Alert></Zoom>
+            : ""
+            }
             <form onSubmit={getIntoTheAccount}>
                 <TextField
                     className={classes.formInput}
