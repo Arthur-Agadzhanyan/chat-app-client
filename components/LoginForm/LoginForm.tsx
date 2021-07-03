@@ -66,11 +66,14 @@ const LoginForm = () => {
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
         setErrors({ email: false, password: false })
+        setErrorMessage("")
 
         if (!form.email.trim()) {
+            setErrorMessage("Поле для ввода почты не должно быть пустым")
             return setErrors({ ...errors, email: true })
         }
         if (!form.password.trim()) {
+            setErrorMessage("Поле для ввода пароля не должно быть пустым")
             return setErrors({ ...errors, password: true })
         } 
         

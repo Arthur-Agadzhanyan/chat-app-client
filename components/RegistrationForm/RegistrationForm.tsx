@@ -70,17 +70,19 @@ const RegistrationForm = () => {
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
         setErrors({ email: false, password: false, username: false })
-
+        setErrorMessage("")
+        if(!form.username.trim()){
+            setErrorMessage("Поле для ввода имени не должно быть пустым")
+            return setErrors({ ...errors, username: true })
+        }
         if (!form.email.trim()) {
+            setErrorMessage("Поле для ввода почты не должно быть пустым")
             return setErrors({ ...errors, email: true })
         }
         if (!form.password.trim()) {
+            setErrorMessage("Поле для ввода пароля не должно быть пустым")
             return setErrors({ ...errors, password: true })
-        }
-        if(!form.username.trim()){
-            return setErrors({ ...errors, username: true })
-        }
-
+        }  
         store.registration(form.username, form.email, form.password).then(()=>{
             if(store.loginErrors){
                 const errorNames = Object.keys(store.loginErrors)
@@ -100,7 +102,7 @@ const RegistrationForm = () => {
     return (
         <FormControl className={classes.form}>
             <Typography variant="h4" className={classes.title}>Регистрация</Typography>
-            {errors.email 
+            {errors.username || errors.email || errors.password
             ? <Zoom in={true}><Alert severity="error" className={classes.alert}>{errorMessage}</Alert></Zoom>
             : ""
             }
