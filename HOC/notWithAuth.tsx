@@ -1,6 +1,7 @@
 // HOC/withAuth.jsx
 import { useRouter } from "next/router";
 import React, { FC, useContext } from "react";
+import Header from "../components/Header/Header";
 import { Context } from "../pages/_app";
 
 const notWithAuth = (WrappedComponent: any) => {
@@ -21,7 +22,12 @@ const notWithAuth = (WrappedComponent: any) => {
         return null;
       }
 
-      return <WrappedComponent {...props} />;
+      return (
+      <>
+        <Header/>
+        <WrappedComponent {...props} />
+      </>
+      );
     }
 
     return null;
