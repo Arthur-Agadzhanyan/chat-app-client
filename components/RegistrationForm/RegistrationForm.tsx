@@ -6,8 +6,16 @@ import { Alert } from '@material-ui/lab';
 
 interface Form {
     email: string,
-    password: string
-    username: string
+    password: string,
+    firstName: string,
+    lastName: string
+}
+
+interface FormErrors {
+    emailError?: string | null,
+    passwordError?: string | null,
+    firstNameError?: string | null,
+    lastNameError?: string | null
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -15,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
         form: {
             borderRadius: "10px",
             padding: "30px",
-            [theme.breakpoints.down('lg')]:{
+            [theme.breakpoints.down('lg')]: {
                 padding: "30px 0px"
             }
         },
@@ -25,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
             // [theme.breakpoints.down('lg')]:{
             //     fontSize: 25
             // },
-            [theme.breakpoints.down('sm')]:{
+            [theme.breakpoints.down('sm')]: {
                 fontSize: 35,
                 paddingBottom: 20
             }
@@ -42,17 +50,21 @@ const useStyles = makeStyles((theme: Theme) =>
         registerLink: {
             fontSize: 17,
             borderBottom: "1px solid #7f6e9b",
-            [theme.breakpoints.down('lg')]:{
-                fontSize: 15 
+            [theme.breakpoints.down('lg')]: {
+                fontSize: 15
             }
         },
         formLine: {
             margin: '20px 0px'
         },
-        alert:{
+        alert: {
             marginBottom: 20
         }
     }));
+
+const initialErrors = {
+    emailError: null, passwordError: null, firstNameError: null, lastNameError: null
+}
 
 const RegistrationForm = () => {
     const classes = useStyles()
@@ -60,37 +72,33 @@ const RegistrationForm = () => {
     const { store } = useContext(Context)
 
     const [form, setForm] = useState<Form>({
-        email: "", password: "",username: ""
+        email: "", password: "", firstName: "", lastName: ""
     })
-    const [errors, setErrors] = useState({
-        email: false, password: false, username:false
-    })
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errors, setErrors] = useState<FormErrors>(initialErrors)
+    const [errorMessage, setErrorMessage] = useState([])
 
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
-        setErrors({ email: false, password: false, username: false })
-        setErrorMessage("")
-        if(!form.username.trim()){
-            setErrorMessage("Поле для ввода имени не должно быть пустым")
-            return setErrors({ ...errors, username: true })
+        setErrors(initialErrors)
+
+        if (!form.firstName.trim()) {
+            return setErrors({ ...errors, firstNameError: "Поле для ввода имени не должно быть пустым" })
+        }
+        if (!form.lastName.trim()) {
+            return setErrors({ ...errors, lastNameError: "Поле для ввода фамилии не должно быть пустым" })
         }
         if (!form.email.trim()) {
-            setErrorMessage("Поле для ввода почты не должно быть пустым")
-            return setErrors({ ...errors, email: true })
+            return setErrors({ ...errors, emailError: "Поле для ввода почты не должно быть пустым" })
         }
         if (!form.password.trim()) {
-            setErrorMessage("Поле для ввода пароля не должно быть пустым")
-            return setErrors({ ...errors, password: true })
-        }  
-        store.registration(form.username, form.email, form.password).then(()=>{
-            if(store.loginErrors){
+            return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
+        }
+
+        store.signup(form.firstName, form.lastName, form.email, form.password).then(() => {
+            if (store.loginErrors) {
                 const errorNames = Object.keys(store.loginErrors)
                 const errorValues = Object.values(store.loginErrors)
-                setErrors(prev=>{
-                    return {...prev, [errorNames[0]]: true}
-                })
-                setErrorMessage(errorValues[0])
+                setErrors(store.loginErrors)
             }
         })
     }
@@ -99,25 +107,50 @@ const RegistrationForm = () => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
+    const errorAlerts = () => {
+        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError) {
+            const messages = Object.values(errors).filter(n => n)
+            return messages.map(error => (
+                <Zoom in={true}>
+                    <Alert severity="error" className={classes.alert}>
+                        {error}
+                    </Alert>
+                </Zoom>
+            ))
+        }
+    }
+
     return (
         <FormControl className={classes.form}>
             <Typography variant="h4" className={classes.title}>Регистрация</Typography>
-            {errors.username || errors.email || errors.password
-            ? <Zoom in={true}><Alert severity="error" className={classes.alert}>{errorMessage}</Alert></Zoom>
-            : ""
-            }
+
+            {/* Рефакторить */}
+            {errorAlerts()}
+
             <form onSubmit={getIntoTheAccount}>
                 <TextField
                     className={classes.formInput}
                     fullWidth
-                    id="username"
-                    name="username"
+                    id="firstName"
+                    name="firstName"
                     type='text'
-                    label="Имя пользователя"
+                    label="Имя"
                     variant='outlined'
-                    value={form.username}
+                    value={form.firstName}
                     onChange={changeHandler}
-                    error={errors.username}
+                    error={errors.firstNameError !== null}
+                />
+                <TextField
+                    className={classes.formInput}
+                    fullWidth
+                    id="lastName"
+                    name="lastName"
+                    type='text'
+                    label="Фамилия"
+                    variant='outlined'
+                    value={form.lastName}
+                    onChange={changeHandler}
+                    error={errors.lastNameError !== null}
                 />
                 <TextField
                     className={classes.formInput}
@@ -129,7 +162,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.email}
                     onChange={changeHandler}
-                    error={errors.email}
+                    error={errors.emailError !== null}
                 />
                 <TextField
                     className={classes.formInput}
@@ -141,7 +174,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.password}
                     onChange={changeHandler}
-                    error={errors.password}
+                    error={errors.passwordError !== null}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться

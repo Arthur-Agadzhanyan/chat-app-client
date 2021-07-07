@@ -1,4 +1,6 @@
 export interface LoginError{
-    email?: string,
-    password?: string 
+    emailError?: string | null, 
+    passwordError?: string | null, 
+    firstNameError?: string | null, 
+    lastNameError?: string | null
 }

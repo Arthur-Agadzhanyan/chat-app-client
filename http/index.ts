@@ -1,10 +1,10 @@
-import { AuthResponse } from './../models/response/AuthResponse';
+import { LoginResponse } from '../models/response/LoginResponse';
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-export const API_URL: string = 'http://localhost:5000/api'
+export const API_URL: string = 'http://localhost:8000'
 
 const $api = axios.create({
-    withCredentials: true, // для отправки куки
+    withCredentials: false, // для отправки куки
     baseURL: API_URL
 })
 
@@ -20,7 +20,7 @@ $api.interceptors.response.use((successRes: AxiosResponse)=>{ // срабаты�
     if (error.response.status == 401 && error.config && originalRequest._isRetry !== true) {
         originalRequest._isRetry = true
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, { withCredentials: true })
+            const response = await axios.get<LoginResponse>(`${API_URL}/refresh`, { withCredentials: false })
             localStorage.setItem('token', response.data.accessToken)
             return $api.request(originalRequest)// продолжаем запрос как это было в схеме) 
         } catch (e) {

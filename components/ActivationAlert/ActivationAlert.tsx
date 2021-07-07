@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         content: {
             minHeight: "90vh",
+            flexGrow: 2,
             background: "#f5f5f5"
         },
         container: {
