@@ -75,7 +75,6 @@ const RegistrationForm = () => {
         email: "", password: "", firstName: "", lastName: ""
     })
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
-    const [errorMessage, setErrorMessage] = useState([])
 
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
@@ -96,8 +95,6 @@ const RegistrationForm = () => {
 
         store.signup(form.firstName, form.lastName, form.email, form.password).then(() => {
             if (store.loginErrors) {
-                const errorNames = Object.keys(store.loginErrors)
-                const errorValues = Object.values(store.loginErrors)
                 setErrors(store.loginErrors)
             }
         })
@@ -110,8 +107,8 @@ const RegistrationForm = () => {
     const errorAlerts = () => {
         if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError) {
             const messages = Object.values(errors).filter(n => n)
-            return messages.map(error => (
-                <Zoom in={true}>
+            return messages.map((error,i) => (
+                <Zoom in={true} key={`${error}_${i}`}>
                     <Alert severity="error" className={classes.alert}>
                         {error}
                     </Alert>
@@ -138,7 +135,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.firstName}
                     onChange={changeHandler}
-                    error={errors.firstNameError !== null}
+                    error={(errors.firstNameError && errors.firstNameError !== null) ? true : false}
                 />
                 <TextField
                     className={classes.formInput}
@@ -150,7 +147,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.lastName}
                     onChange={changeHandler}
-                    error={errors.lastNameError !== null}
+                    error={(errors.lastNameError && errors.lastNameError !== null) ? true : false}
                 />
                 <TextField
                     className={classes.formInput}
@@ -162,7 +159,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.email}
                     onChange={changeHandler}
-                    error={errors.emailError !== null}
+                    error={(errors.emailError && errors.emailError !== null) ? true : false}
                 />
                 <TextField
                     className={classes.formInput}
@@ -174,7 +171,7 @@ const RegistrationForm = () => {
                     variant='outlined'
                     value={form.password}
                     onChange={changeHandler}
-                    error={errors.passwordError !== null}
+                    error={(errors.passwordError && errors.passwordError !== null) ? true : false}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться

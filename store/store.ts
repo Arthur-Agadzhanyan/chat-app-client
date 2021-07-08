@@ -34,14 +34,17 @@ export default class Store {
 
     async signup(firstName: string,lastName:string, email:string, password: string){
         try{
+            
             const response = await AuthService.signup(firstName,lastName, email, password)
-            console.log({firstName,lastName,email,password})
-            console.log(response)
+            // console.log({firstName,lastName,email,password})
+            // console.log(response)
             this.setUser(response.data)
+            this.setLoginError({} as LoginError)
             this.setAuth(true)
         }catch(e: any){
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
+            console.log(errorObj)
         }
     }
 
@@ -53,11 +56,10 @@ export default class Store {
             localStorage.setItem('token',response.data.accessToken)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
-            // this.setUser(response.data.user)
         }catch(e: any){
-            // const errorObj: LoginError = JSON.parse(e.response?.data?.message)
-            this.setLoginError(e)
-            console.log(e)
+            const errorObj: LoginError = e.response?.data
+            this.setLoginError(errorObj)
+            console.log(errorObj)
         }
     }
 

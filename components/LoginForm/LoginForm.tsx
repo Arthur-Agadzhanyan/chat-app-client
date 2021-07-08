@@ -9,6 +9,11 @@ interface Form {
     password: string
 }
 
+interface FormErrors {
+    emailError?: string | null,
+    passwordError?: string | null
+}
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
@@ -18,10 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
         title: {
             marginBottom: '35px',
             textAlign: "left",
-            [theme.breakpoints.down('lg')]:{
+            [theme.breakpoints.down('lg')]: {
                 fontSize: 25
             },
-            [theme.breakpoints.down('sm')]:{
+            [theme.breakpoints.down('sm')]: {
                 fontSize: 35,
                 paddingBottom: 20
             }
@@ -38,17 +43,21 @@ const useStyles = makeStyles((theme: Theme) =>
         registerLink: {
             fontSize: 17,
             borderBottom: "1px solid #7f6e9b",
-            [theme.breakpoints.down('lg')]:{
-                fontSize: 15 
+            [theme.breakpoints.down('lg')]: {
+                fontSize: 15
             }
         },
         formLine: {
             margin: '20px 0px'
         },
-        alert:{
+        alert: {
             marginBottom: 20
         }
     }));
+
+const initialErrors = {
+    emailError: null, passwordError: null
+}
 
 const LoginForm = () => {
     const classes = useStyles()
@@ -58,48 +67,49 @@ const LoginForm = () => {
     const [form, setForm] = useState<Form>({
         email: "", password: ""
     })
-    const [errors, setErrors] = useState({
-        email: false, password: false
-    })
-    const [errorMessage, setErrorMessage] = useState("")
+    const [errors, setErrors] = useState<FormErrors>(initialErrors)
 
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
-        setErrors({ email: false, password: false })
-        setErrorMessage("")
+        setErrors(initialErrors)
 
         if (!form.email.trim()) {
-            setErrorMessage("Поле для ввода почты не должно быть пустым")
-            return setErrors({ ...errors, email: true })
+            return setErrors({ ...errors, emailError: "Поле для ввода почты не должно быть пустым" })
         }
         if (!form.password.trim()) {
-            setErrorMessage("Поле для ввода пароля не должно быть пустым")
-            return setErrors({ ...errors, password: true })
-        } 
-        
-        store.login(form.email, form.password).then(()=>{
-            if(store.loginErrors){
-                const errorNames = Object.keys(store.loginErrors)
-                const errorValues = Object.values(store.loginErrors)
-                setErrors(prev=>{
-                    return {...prev, [errorNames[0]]: true}
-                })
-                setErrorMessage(errorValues[0])
+            return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
+        }
+
+        store.login(form.email, form.password).then(() => {
+            if (store.loginErrors) {
+                setErrors(store.loginErrors)
             }
-        })  
+        })
     }
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
+    const errorAlerts = () => {
+        if (errors.emailError || errors.passwordError) {
+            const messages = Object.values(errors).filter(n => n)
+            return messages.map((error,i) => (
+                <Zoom in={true} key={`${error}_${i}`}>
+                    <Alert severity="error" className={classes.alert}>
+                        {error}
+                    </Alert>
+                </Zoom>
+            ))
+        }
+    }
+
     return (
         <FormControl className={classes.form}>
             <Typography variant="h4" className={classes.title}>Вход в аккаунт</Typography>
-            {errors.email || errors.password 
-            ? <Zoom in={true}><Alert severity="error" className={classes.alert}>{errorMessage}</Alert></Zoom>
-            : ""
-            }
+
+            {errorAlerts()}
+
             <form onSubmit={getIntoTheAccount}>
                 <TextField
                     className={classes.formInput}
@@ -111,7 +121,7 @@ const LoginForm = () => {
                     variant='outlined'
                     value={form.email}
                     onChange={changeHandler}
-                    error={errors.email}
+                    error={(errors.emailError && errors.emailError !== null) ? true : false}
                 />
                 <TextField
                     className={classes.formInput}
@@ -123,7 +133,7 @@ const LoginForm = () => {
                     variant='outlined'
                     value={form.password}
                     onChange={changeHandler}
-                    error={errors.password}
+                    error={(errors.passwordError && errors.passwordError !== null) ? true : false}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Войти
