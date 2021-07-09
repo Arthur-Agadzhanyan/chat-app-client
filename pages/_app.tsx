@@ -19,18 +19,18 @@ export const Context = createContext({
 function MyApp({ Component, pageProps }: AppProps) {
   const { store } = useContext(Context)
 
-  // useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     store.checkAuth()
-  //   }
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      store.checkAuth().then(()=>console.log(store))
+    }
 
-  //   /* Удаление CSS, внедренного на стороне сервера.*/
-  //   const jssStyles = document.querySelector('#jss-server-side'); 
-  //   if (jssStyles && jssStyles.parentElement) {
-  //     jssStyles.parentElement.removeChild(jssStyles);
-  //   }
+    /* Удаление CSS, внедренного на стороне сервера.*/
+    const jssStyles = document.querySelector('#jss-server-side'); 
+    if (jssStyles && jssStyles.parentElement) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
     
-  // }, [])
+  }, [])
 
   return (
     <Context.Provider value={{ store }}>

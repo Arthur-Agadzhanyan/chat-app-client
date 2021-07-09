@@ -60,4 +60,4 @@ function Home() {
     )
 }
 
-export default observer(Home)
+export default observer(withAuth(Home))

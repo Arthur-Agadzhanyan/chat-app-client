@@ -11,7 +11,8 @@ interface Form {
 
 interface FormErrors {
     emailError?: string | null,
-    passwordError?: string | null
+    passwordError?: string | null,
+    authError?: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -92,7 +93,7 @@ const LoginForm = () => {
     }
 
     const errorAlerts = () => {
-        if (errors.emailError || errors.passwordError) {
+        if (errors.emailError || errors.passwordError || errors.authError) {
             const messages = Object.values(errors).filter(n => n)
             return messages.map((error,i) => (
                 <Zoom in={true} key={`${error}_${i}`}>

@@ -54,10 +54,14 @@ export default class Store {
             console.log(response.data)
 
             localStorage.setItem('token',response.data.accessToken)
+            localStorage.setItem('refreshToken',response.data.refreshToken)
+
+            this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
+            
         }catch(e: any){
-            const errorObj: LoginError = e.response?.data
+            const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
             console.log(errorObj)
         }
@@ -75,17 +79,23 @@ export default class Store {
         const response = await AuthService.logout()
     }
 
-    // async checkAuth() {
-    //     try {
-    //         const response = await axios.get<LoginResponse>(`${API_URL}/refresh`, { withCredentials: true })
-    //         console.log(response)
-    //         localStorage.setItem('token', response.data.accessToken)
-    //         this.setAuth(true)
-    //         this.setUser(response.data.user)
-    //     } catch (e) {
+    async checkAuth() {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken')
 
-    //     } finally{
-    //         this.setLoading(false)
-    //     }
-    // }
+            const response = await axios.patch(`${API_URL}/refresh`,{}, {
+                headers:{ 
+                    "Authorization": `Bearer ${refreshToken}`
+                }
+            })
+            const data = response.data
+
+            localStorage.setItem('token', data.accessToken)
+            localStorage.setItem('refreshToken', data.refreshToken)
+            this.setAuth(true)
+        } catch (e: any) {
+        } finally{
+            this.setLoading(false)
+        }
+    }
 }

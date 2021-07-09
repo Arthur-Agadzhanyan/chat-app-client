@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }));
 
-function Home() {
+function Login() {
   const classes = useStyles()
   const { store } = useContext(Context)
   return (
@@ -104,4 +104,4 @@ function Home() {
   )
 }
 
-export default observer(withAuth(Home))
+export default observer(withAuth(Login))

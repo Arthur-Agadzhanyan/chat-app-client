@@ -98,4 +98,4 @@ const chats = () => {
     );
 }
 
-export default observer(chats);
+export default observer(notWithAuth(chats));
