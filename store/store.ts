@@ -68,7 +68,7 @@ export default class Store {
     }
 
     async logout(){
-        const response = await AuthService.logout()
+        localStorage.removeItem('refreshToken')
         localStorage.removeItem('token')
 
         this.setUser({} as User)

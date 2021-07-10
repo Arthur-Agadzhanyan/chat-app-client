@@ -3,7 +3,7 @@ import notWithAuth from '../HOC/notWithAuth';
 import { createStyles, Grid, makeStyles, Theme, Card, IconButton, InputBase, Paper, Divider, TextField } from "@material-ui/core"
 import { Context } from './_app';
 import { observer } from 'mobx-react-lite';
-import ActivationAlert from '../components/ActivationAlert/ActivationAlert';
+import ActivationAlert from '../components/VerificationAlert/VerificationAlert';
 import ChatLink from '../components/ChatLink/ChatLink';
 import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
@@ -88,7 +88,7 @@ const chats = () => {
 
                     <Grid item sm={8} lg={8} className={classes.currentChat}>
                         <div>
-
+                            <button onClick={()=>store.logout()}>Выход</button>
                         </div>
                     </Grid>
                 </Grid>

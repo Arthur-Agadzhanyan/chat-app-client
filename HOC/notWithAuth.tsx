@@ -9,7 +9,7 @@ const notWithAuth = (WrappedComponent: any) => {
 
     if (typeof window !== "undefined") {
       const Router = useRouter();
-      const {store}  = useContext(Context)
+      const { store }  = useContext(Context)
 
       if (store.isLoading) {
         return (
@@ -19,6 +19,10 @@ const notWithAuth = (WrappedComponent: any) => {
 
       if (!store.isAuth) {
         Router.replace("/");
+        return null;
+      }
+      if(!store.user.verified){
+        Router.replace("/verify");
         return null;
       }
 

@@ -31,24 +31,20 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const ActivationAlert: FC<Props> = ({ store }) => {
+const VerificationAlert: FC<Props> = ({ store }) => {
     const classes = useStyles()
-
-    const logout = ()=>{
-        store.logout()
-    }
 
     return (
         <Grid container alignItems='center' justify="center" className={classes.content} >
             <Zoom in={true} style={{ transitionDelay:  '500ms' }}>
                 <Grid item xs={12} sm={7} md={6} lg={5} xl={4}  className={classes.container}>
-                    <Typography variant="h5" className={classes.title}>Добро пожаловать в Бренд, {store.user.username}!</Typography>
-                    <div> Подтвердите свой адрес электронной почты для начала. Если ваш аккаунт когда-либо будет заблокирован, это поможет вам восстановить к нему доступ. Ссылка на подтверждение адреса электронной почты была выслана на ваш почтовый адрес.</div>
-                    <Button className={classes.logoutBtn} onClick={logout}>Выход</Button>
+                    <Typography variant="h5" className={classes.title}>Добро пожаловать в Бренд, {store.user.firstName}!</Typography>
+                    <div> Подтвердите свой адрес электронной почты для начала. Если ваш аккаунт когда-либо будет заблокирован, это поможет вам восстановить к нему доступ.</div>
+                    <Button className={classes.logoutBtn} variant="contained" color="primary" disableElevation >Подтвердите ваш эл. адрес</Button>
                 </Grid>
             </Zoom>
         </Grid>
     );
 }
 
-export default ActivationAlert;
+export default VerificationAlert;
