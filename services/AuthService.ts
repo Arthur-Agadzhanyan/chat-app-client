@@ -1,3 +1,4 @@
+import { VerifyResponse } from './../models/response/VerifyResponse';
 import { SignUpResponse } from './../models/response/SignUpResponse';
 import { LoginResponse } from '../models/response/LoginResponse';
 import { AxiosResponse } from "axios";
@@ -12,9 +13,9 @@ export default class AuthService {
         return $api.post<LoginResponse>('/signup',{firstName,lastName,email,password})
     }
 
-    // static async verify(token:string):Promise<AxiosResponse<AuthResponse>>{
-
-    // }
+    static async getVerificationCode(email:string):Promise<AxiosResponse<VerifyResponse>>{
+        return $api.post<VerifyResponse>("/verify",{email})
+    }
 
     static async logout():Promise<void> {
         return $api.post('/logout')

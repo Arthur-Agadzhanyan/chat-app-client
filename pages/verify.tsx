@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import ActivationAlert from '../components/VerificationAlert/VerificationAlert';
-import withAuth from '../HOC/withAuth';
+import notWithAuth from '../HOC/notWithAuth';
 import { Context } from './_app';
 
 const verify = () => {
@@ -9,10 +9,10 @@ const verify = () => {
     
     return (
         <div>
-            {JSON.stringify(store)}
+            {/* {JSON.stringify(store)} */}
             <ActivationAlert store={store} />
         </div>
     );
 }
 
-export default observer(withAuth(verify));
+export default observer(notWithAuth(verify));

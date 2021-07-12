@@ -32,26 +32,23 @@ export default class Store {
        this.loginErrors = error
     }
 
+    // Для регистрации аккаунта
     async signup(firstName: string,lastName:string, email:string, password: string){
         try{
             
             const response = await AuthService.signup(firstName,lastName, email, password)
-            // console.log({firstName,lastName,email,password})
-            // console.log(response)
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
         }catch(e: any){
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
-            console.log(errorObj)
         }
     }
-
+    // Для входа в аккаунт
     async login(email: string, password: string) {
         try{
             const response = await AuthService.login(email, password)
-            console.log(response.data)
 
             localStorage.setItem('token',response.data.accessToken)
             localStorage.setItem('refreshToken',response.data.refreshToken)
@@ -63,22 +60,23 @@ export default class Store {
         }catch(e: any){
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
-            console.log(errorObj)
         }
     }
 
-    async logout(){
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('token')
-
-        this.setUser({} as User)
-        this.setAuth(false)
+    // Для запроса отправки кода подтверждения аккаунта на почту
+    async getVerificationCode(setSuccess: Function,setError:Function){
+        try {
+            const response = await AuthService.getVerificationCode(this.user.email)
+            setSuccess(response.data)     
+        } catch (e:any) {
+            setError(e.response?.data)
+        }
     }
-
-    async verify(){
+    async verifyPatch(){
         const response = await AuthService.logout()
     }
 
+    // Для обновления jwt access & refresh токенов
     async checkAuth() {
         try {
             const refreshToken = localStorage.getItem('refreshToken')
@@ -92,6 +90,7 @@ export default class Store {
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
+            this.setUser(response.data as User)
             this.setAuth(true)
         } catch (e: any) {
         } finally{

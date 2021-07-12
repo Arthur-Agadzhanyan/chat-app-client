@@ -17,17 +17,6 @@ const withAuth = (WrappedComponent: any) => {
       }
 
       if (store.isAuth) {
-
-        if (!store.user.verified) {
-          if (Router.pathname == "/verify") {
-            return <WrappedComponent {...props} />
-          }
-
-          Router.replace("/verify")
-          return null
-          
-        }
-          
         Router.replace("/chats");
         return null;
         

@@ -20,10 +20,14 @@ const notWithAuth = (WrappedComponent: any) => {
       if (!store.isAuth) {
         Router.replace("/");
         return null;
-      }
-      if(!store.user.verified){
-        Router.replace("/verify");
-        return null;
+      }else if (!store.user.verified) {
+        if (Router.pathname == "/verify") {
+          return <WrappedComponent {...props} />
+        }
+
+        Router.replace("/verify")
+        return null
+        
       }
 
       return (
