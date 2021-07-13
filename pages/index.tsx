@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import LoginForm from "../components/LoginForm/LoginForm";
 import { Context } from "./_app";
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
-import withAuth from "../HOC/withAuth";
+import notWithAuth from "../HOC/notWithAuth";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -104,4 +104,4 @@ function Login() {
   )
 }
 
-export default observer(withAuth(Login))
+export default observer(notWithAuth(Login))

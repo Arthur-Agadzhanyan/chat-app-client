@@ -17,7 +17,7 @@ export default class AuthService {
         return $api.post<VerifyResponse>("/verify",{email})
     }
 
-    static async logout():Promise<void> {
-        return $api.post('/logout')
+    static async sendVerificationCode(hash: string):Promise<AxiosResponse<VerifyResponse>>{
+        return $api.patch<VerifyResponse>(`/verify`,{hash})
     }
 }

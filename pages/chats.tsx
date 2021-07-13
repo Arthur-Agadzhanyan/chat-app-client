@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
-import notWithAuth from '../HOC/notWithAuth';
-import { createStyles, Grid, makeStyles, Theme, Card, IconButton, InputBase, Paper, Divider, TextField } from "@material-ui/core"
+import withAuth from '../HOC/withAuth';
+import { createStyles, Grid, makeStyles, Theme, Card, IconButton,TextField } from "@material-ui/core"
 import { Context } from './_app';
 import { observer } from 'mobx-react-lite';
-import ActivationAlert from '../components/VerificationAlert/VerificationAlert';
 import ChatLink from '../components/ChatLink/ChatLink';
-import MenuIcon from "@material-ui/icons/Menu"
 import SearchIcon from "@material-ui/icons/Search"
-import DirectionsIcon from "@material-ui/icons/Directions"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -98,4 +95,4 @@ const chats = () => {
     );
 }
 
-export default observer(notWithAuth(chats));
+export default observer(withAuth(chats));

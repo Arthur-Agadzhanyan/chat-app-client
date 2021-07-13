@@ -72,8 +72,25 @@ export default class Store {
             setError(e.response?.data)
         }
     }
-    async verifyPatch(){
-        const response = await AuthService.logout()
+
+    async sendVerificationCode(setSuccess: Function,setError:Function, hash:string){
+        try{
+            const response = await AuthService.sendVerificationCode(hash)
+            console.log(response)
+            setSuccess("success")
+            this.user.verified = true
+        }catch(e:any){
+            console.log(e)
+            setError(e.response?.data)
+        }
+        
+    }
+
+    logout(){
+        localStorage.removeItem('token')
+        localStorage.removeItem('refreshToken')
+        this.setUser({} as User)
+        this.setAuth(false)
     }
 
     // Для обновления jwt access & refresh токенов

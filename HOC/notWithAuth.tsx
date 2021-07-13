@@ -1,45 +1,32 @@
-// HOC/withAuth.jsx
 import { useRouter } from "next/router";
 import React, { FC, useContext } from "react";
-import Header from "../components/Header/Header";
+
 import { Context } from "../pages/_app";
 
-const notWithAuth = (WrappedComponent: any) => {
+const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
 
     if (typeof window !== "undefined") {
-      const Router = useRouter();
-      const { store }  = useContext(Context)
+      const {store} = useContext(Context)
+      const Router = useRouter()
 
-      if (store.isLoading) {
-        return (
-          <h1>Loading...</h1>
-        )
-      }
-
-      if (!store.isAuth) {
-        Router.replace("/");
-        return null;
-      }else if (!store.user.verified) {
-        if (Router.pathname == "/verify") {
-          return <WrappedComponent {...props} />
+      if(store.isLoading){ // если 
+        return <h1>Loading...</h1>
+      } else if(store.isAuth){ // если пользователь авторизован 
+        if(!store.user.verified && Router.pathname !== "/verify"){ // если пользователь не подтвердил свою почту и он не находится на странице /verify
+          Router.push('/verify')
+          return null
+        }else if(store.user.verified){ // если почта подтверждена
+          Router.push('/chats')
+          return null
         }
-
-        Router.replace("/verify")
-        return null
-        
       }
 
-      return (
-      <>
-        <Header/>
-        <WrappedComponent {...props} />
-      </>
-      );
+      return <WrappedComponent {...props} />;
     }
 
     return null;
   };
 };
 
-export default notWithAuth;
+export default withAuth;

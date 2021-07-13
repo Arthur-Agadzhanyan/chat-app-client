@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "./_app";
-import withAuth from "../HOC/withAuth";
+import notWithAuth from "../HOC/notWithAuth";
 import { Box, Container, createStyles, Fade, Grid, makeStyles, Theme, Typography, Zoom } from "@material-ui/core";
 import RegistrationForm from "../components/RegistrationForm/RegistrationForm";
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
@@ -60,4 +60,4 @@ function Home() {
     )
 }
 
-export default observer(withAuth(Home))
+export default observer(notWithAuth(Home))
