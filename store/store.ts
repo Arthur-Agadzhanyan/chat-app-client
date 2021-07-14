@@ -33,16 +33,17 @@ export default class Store {
     }
 
     // Для регистрации аккаунта
-    async signup(firstName: string,lastName:string, email:string, password: string){
+    async signup(birthday: Date | null,firstName: string,lastName:string, email:string, password: string){
         try{
             
-            const response = await AuthService.signup(firstName,lastName, email, password)
+            const response = await AuthService.signup(birthday,firstName,lastName, email, password)
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
         }catch(e: any){
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
+            console.log(errorObj)
         }
     }
     // Для входа в аккаунт

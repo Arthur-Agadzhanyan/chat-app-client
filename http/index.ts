@@ -1,7 +1,7 @@
 import { LoginResponse } from '../models/response/LoginResponse';
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-export const API_URL: string = 'http://localhost:8000'
+export const API_URL: string = 'http://localhost:8000/api/v1'
 
 const $api = axios.create({
     withCredentials: false, // для отправки куки

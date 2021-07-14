@@ -6,18 +6,18 @@ import $api from "../http";
 
 export default class AuthService {
     static async login(email: string, password: string):Promise<AxiosResponse<LoginResponse>> {
-        return $api.post<LoginResponse>('/login',{email,password})
+        return $api.post<LoginResponse>('/auth/login',{email,password})
     }
 
-    static async signup(firstName: string, lastName:string, email: string, password: string):Promise<AxiosResponse<SignUpResponse>> {
-        return $api.post<LoginResponse>('/signup',{firstName,lastName,email,password})
+    static async signup(birthday: Date | null,firstName: string, lastName:string, email: string, password: string):Promise<AxiosResponse<SignUpResponse>> {
+        return $api.post<LoginResponse>('/auth/signup',{age: birthday,firstName,lastName,email,password})
     }
 
     static async getVerificationCode(email:string):Promise<AxiosResponse<VerifyResponse>>{
-        return $api.post<VerifyResponse>("/verify",{email})
+        return $api.post<VerifyResponse>("/auth/verify",{email})
     }
 
     static async sendVerificationCode(hash: string):Promise<AxiosResponse<VerifyResponse>>{
-        return $api.patch<VerifyResponse>(`/verify`,{hash})
+        return $api.patch<VerifyResponse>(`/auth/verify`,{hash})
     }
 }

@@ -3,6 +3,8 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
+import GoogleMaps from '../SelectCountry/SelectCountry';
+import DatePicker from '../DatePicker/DatePicker';
 
 interface Form {
     email: string,
@@ -12,10 +14,11 @@ interface Form {
 }
 
 interface FormErrors {
+    ageError?: string | null,
     emailError?: string | null,
     passwordError?: string | null,
     firstNameError?: string | null,
-    lastNameError?: string | null
+    lastNameError?: string | null,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,7 +43,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         formInput: {
             margin: '0px 0px 20px 0px',
-            background: "#fff"
+            background: "#fff",
+            width: "100%"
         },
         formButton: {
             fontSize: 17,
@@ -63,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
 
 const initialErrors = {
-    emailError: null, passwordError: null, firstNameError: null, lastNameError: null
+     ageError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null 
 }
 
 const RegistrationForm = () => {
@@ -74,6 +78,10 @@ const RegistrationForm = () => {
     const [form, setForm] = useState<Form>({
         email: "", password: "", firstName: "", lastName: ""
     })
+    const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+        new Date('2021-07-14'),
+    );
+
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
 
     const getIntoTheAccount = (e: React.FormEvent) => {
@@ -92,8 +100,11 @@ const RegistrationForm = () => {
         if (!form.password.trim()) {
             return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
         }
+        if(!selectedDate){
+            return setErrors({ ...errors, ageError: "Поле для ввода даты рождения не должно быть пустым" })
+        }
 
-        store.signup(form.firstName, form.lastName, form.email, form.password).then(() => {
+        store.signup(selectedDate,form.firstName, form.lastName, form.email, form.password).then(() => {
             if (store.loginErrors) {
                 setErrors(store.loginErrors)
             }
@@ -105,9 +116,9 @@ const RegistrationForm = () => {
     }
 
     const errorAlerts = () => {
-        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError) {
+        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError || errors.ageError) {
             const messages = Object.values(errors).filter(n => n)
-            return messages.map((error,i) => (
+            return messages.map((error, i) => (
                 <Zoom in={true} key={`${error}_${i}`}>
                     <Alert severity="error" className={classes.alert}>
                         {error}
@@ -149,6 +160,7 @@ const RegistrationForm = () => {
                     onChange={changeHandler}
                     error={(errors.lastNameError && errors.lastNameError !== null) ? true : false}
                 />
+                
                 <TextField
                     className={classes.formInput}
                     fullWidth
@@ -172,6 +184,13 @@ const RegistrationForm = () => {
                     value={form.password}
                     onChange={changeHandler}
                     error={(errors.passwordError && errors.passwordError !== null) ? true : false}
+                />
+                <DatePicker 
+                id="age" 
+                label="Дата рождения" 
+                selectedDate={selectedDate} 
+                setSelectedDate={setSelectedDate} 
+                error = {errors.ageError ? true : false}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться
