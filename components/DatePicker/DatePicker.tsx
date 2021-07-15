@@ -40,6 +40,7 @@ const DatePicker: FC<Props> = ({id,label,selectedDate,setSelectedDate,error}) =>
                 disableToolbar
                 variant="dialog"
                 format="dd/MM/yyyy"
+                
                 margin="normal"
                 id={id}
                 label={label}

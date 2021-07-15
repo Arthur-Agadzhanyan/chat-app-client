@@ -5,7 +5,7 @@ import React from 'react';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         appBar:{
-           
+            height: 48
         },
         content: {
             display: "flex",

@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import theme from '../theme'
 import { ThemeProvider } from '@material-ui/core'
+import Header from '../components/Header/Header'
 
 interface State {
   store: Store
@@ -23,7 +24,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (localStorage.getItem('token')) {
       store.checkAuth().then(()=>console.log(store))
     }
-
     /* Удаление CSS, внедренного на стороне сервера.*/
     const jssStyles = document.querySelector('#jss-server-side'); 
     if (jssStyles && jssStyles.parentElement) {

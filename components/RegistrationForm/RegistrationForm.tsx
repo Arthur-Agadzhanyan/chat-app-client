@@ -3,14 +3,14 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
-import GoogleMaps from '../SelectCountry/SelectCountry';
 import DatePicker from '../DatePicker/DatePicker';
 
 interface Form {
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
+    location: string
 }
 
 interface FormErrors {
@@ -19,6 +19,7 @@ interface FormErrors {
     passwordError?: string | null,
     firstNameError?: string | null,
     lastNameError?: string | null,
+    locationError?: string | null,
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }));
 
 const initialErrors = {
-     ageError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null 
+     ageError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
 }
 
 const RegistrationForm = () => {
@@ -76,7 +77,7 @@ const RegistrationForm = () => {
     const { store } = useContext(Context)
 
     const [form, setForm] = useState<Form>({
-        email: "", password: "", firstName: "", lastName: ""
+        email: "", password: "", firstName: "", lastName: "", location: ""
     })
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date('2021-07-14'),
@@ -103,8 +104,11 @@ const RegistrationForm = () => {
         if(!selectedDate){
             return setErrors({ ...errors, ageError: "Поле для ввода даты рождения не должно быть пустым" })
         }
+        if (!form.location.trim()) {
+            return setErrors({ ...errors, locationError: "Поле для ввода города не должно быть пустым" })
+        }
 
-        store.signup(selectedDate,form.firstName, form.lastName, form.email, form.password).then(() => {
+        store.signup(form.firstName, form.lastName, form.email, form.password, form.location,selectedDate).then(() => {
             if (store.loginErrors) {
                 setErrors(store.loginErrors)
             }
@@ -116,7 +120,7 @@ const RegistrationForm = () => {
     }
 
     const errorAlerts = () => {
-        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError || errors.ageError) {
+        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError || errors.ageError || errors.locationError) {
             const messages = Object.values(errors).filter(n => n)
             return messages.map((error, i) => (
                 <Zoom in={true} key={`${error}_${i}`}>
@@ -185,12 +189,24 @@ const RegistrationForm = () => {
                     onChange={changeHandler}
                     error={(errors.passwordError && errors.passwordError !== null) ? true : false}
                 />
+                <TextField
+                    className={classes.formInput}
+                    fullWidth
+                    id="location"
+                    name="location"
+                    type='text'
+                    label="Город"
+                    variant='outlined'
+                    value={form.location}
+                    onChange={changeHandler}
+                    error={(errors.locationError && errors.locationError !== null) ? true : false}
+                />
                 <DatePicker 
-                id="age" 
-                label="Дата рождения" 
-                selectedDate={selectedDate} 
-                setSelectedDate={setSelectedDate} 
-                error = {errors.ageError ? true : false}
+                    id="age" 
+                    label="Дата рождения" 
+                    selectedDate={selectedDate} 
+                    setSelectedDate={setSelectedDate} 
+                    error = {errors.ageError ? true : false}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться

@@ -1,11 +1,13 @@
 import { LoginResponse } from '../models/response/LoginResponse';
 import { API_URL } from './../http/index';
 import { makeAutoObservable } from 'mobx';
-import $api from '../http';
+import { useRouter } from 'next/router';
 import { User } from './../models/User';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 import { LoginError } from '../models/LoginError';
+
+
 
 export default class Store {
     user = {} as User
@@ -16,6 +18,7 @@ export default class Store {
     constructor() {
         makeAutoObservable(this)
     }
+    
 
     setAuth(bool: boolean) { // меняет значение авторизации пользователя
         this.isAuth = bool
@@ -33,14 +36,15 @@ export default class Store {
     }
 
     // Для регистрации аккаунта
-    async signup(birthday: Date | null,firstName: string,lastName:string, email:string, password: string){
+    async signup(firstName: string,lastName:string, email:string, password: string,location: string, birthday: Date | null){
         try{
-            
-            const response = await AuthService.signup(birthday,firstName,lastName, email, password)
+            const response = await AuthService.signup(firstName,lastName, email, password,location,birthday)
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
         }catch(e: any){
+            console.log(birthday)
+
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
             console.log(errorObj)
@@ -59,8 +63,14 @@ export default class Store {
             this.setAuth(true)
             
         }catch(e: any){
+            
+            // if(e.response.status == 403){
+            //     this.setLoginError({authError: "text"} as LoginError)
+            // }
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
+            console.log(e.response?.data.data)
+
         }
     }
 
@@ -99,7 +109,7 @@ export default class Store {
         try {
             const refreshToken = localStorage.getItem('refreshToken')
 
-            const response = await axios.patch(`${API_URL}/refresh`,{}, {
+            const response = await axios.patch(`${API_URL}/auth/refresh`,{}, {
                 headers:{ 
                     "Authorization": `Bearer ${refreshToken}`
                 }
