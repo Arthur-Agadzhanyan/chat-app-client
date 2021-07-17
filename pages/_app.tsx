@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Context.Provider value={{ store }}>
       <ThemeProvider theme={theme}>
+        <Header/>
         <Component {...pageProps} />
       </ThemeProvider>   
     </Context.Provider>

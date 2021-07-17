@@ -1,79 +1,13 @@
-import { Box, Container, createStyles, Fade, Grid, makeStyles, Slide, Theme, Typography } from "@material-ui/core";
+import React from "react";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import { Container, Fade, Grid, Slide, Typography } from "@material-ui/core";
 import LoginForm from "../components/LoginForm/LoginForm";
-import { Context } from "./_app";
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
 import notWithAuth from "../HOC/notWithAuth";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    container: {
-      minHeight: "100vh",
-      overflow: 'hidden'
-    },
-    brandContainer: {
-      width: "100%",
-      minHeight: '100vh',
-      background: "url('loginImage.jpg')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      color: "#FFF",
-    },
-    brand: {
-      position: "absolute",
-      top: 20,
-      left: 20,
-      fontSize: 20,
-      marginBottom: '30px',
-
-    },
-    titleContainer: {
-      height: "100%",
-      marginLeft: "auto",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-    brandTitle: {
-      padding: "20px 0px",
-      [theme.breakpoints.down('md')]: {
-        fontSize: 60
-      },
-      [theme.breakpoints.down('xs')]: {
-        fontSize: 40
-      }
-    },
-    brandSubtitle: {
-      [theme.breakpoints.down('md')]: {
-        fontSize: 30
-      }
-    },
-    formContainer: {
-      width: "100%",
-      minHeight: "100vh",
-      background: "#f5f5f5",
-      display: "flex",
-      alignItems: 'center',
-      justifyContent: "center",
-      flexDirection: "column",
-    },
-    phoneArrow: {
-      position: "absolute",
-      bottom: 20,
-      left: '50%',
-      margin: "0 auto",
-      transform: "translate(-50%,0%)",
-      fontSize: 35,
-      [theme.breakpoints.up('md')]: {
-        display: "none"
-      }
-    }
-  }));
+import LoginStyles from "../styles/login.style";
 
 function Login() {
-  const classes = useStyles()
-  const { store } = useContext(Context)
+  const classes = LoginStyles()
   return (
     <Fade in={true}>
       <Grid
@@ -96,10 +30,7 @@ function Login() {
             <LoginForm />
           </Grid>
         </Slide>
-
-
       </Grid>
-
     </Fade>
   )
 }

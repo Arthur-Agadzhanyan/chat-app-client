@@ -1,78 +1,18 @@
-import { Button, FormControl, makeStyles, TextField, Divider, Typography, Box, createStyles, Theme, Zoom } from '@material-ui/core';
+import { Button, FormControl, TextField, Divider, Typography, Box, Zoom } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
 import DatePicker from '../DatePicker/DatePicker';
-
-interface Form {
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-    location: string
-}
-
-interface FormErrors {
-    ageError?: string | null,
-    emailError?: string | null,
-    passwordError?: string | null,
-    firstNameError?: string | null,
-    lastNameError?: string | null,
-    locationError?: string | null,
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        form: {
-            borderRadius: "10px",
-            padding: "30px",
-            [theme.breakpoints.down('lg')]: {
-                padding: "30px 0px"
-            }
-        },
-        title: {
-            marginBottom: '35px',
-            textAlign: "center",
-            // [theme.breakpoints.down('lg')]:{
-            //     fontSize: 25
-            // },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: 35,
-                paddingBottom: 20
-            }
-        },
-        formInput: {
-            margin: '0px 0px 20px 0px',
-            background: "#fff",
-            width: "100%"
-        },
-        formButton: {
-            fontSize: 17,
-            fontWeight: "bold",
-            padding: 13
-        },
-        registerLink: {
-            fontSize: 17,
-            borderBottom: "1px solid #7f6e9b",
-            [theme.breakpoints.down('lg')]: {
-                fontSize: 15
-            }
-        },
-        formLine: {
-            margin: '20px 0px'
-        },
-        alert: {
-            marginBottom: 20
-        }
-    }));
+import { Form,FormErrors } from './interfaces';
+import SignUpFormStyles from './signup-form.style';
 
 const initialErrors = {
      ageError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
 }
 
-const RegistrationForm = () => {
-    const classes = useStyles()
+const SignUp = () => {
+    const classes = SignUpFormStyles()
 
     const { store } = useContext(Context)
 
@@ -225,4 +165,4 @@ const RegistrationForm = () => {
     );
 }
 
-export default RegistrationForm;
+export default SignUp;

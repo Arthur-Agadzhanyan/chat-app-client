@@ -1,33 +1,9 @@
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography, createStyles, Theme, Container, Grid } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu'
 import React from 'react';
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        appBar:{
-            height: 48
-        },
-        content: {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-        },
-        menuButton: {
-            marginRight: theme.spacing(2),
-        },
-        title: {
-            flexGrow: 1,
-            margin: 0,
-            padding: 0
-        },
-        toolbar: {
-            minHeight: 48
-        }
-    }),
-);
+import { AppBar, Toolbar, Typography, Grid } from '@material-ui/core';
+import HeaderStyles from './header.style';
 
 const Header = () => {
-    const classes = useStyles()
+    const classes = HeaderStyles()
     return (
         <>
             <AppBar className={classes.appBar} position="static" elevation={0} color="primary">

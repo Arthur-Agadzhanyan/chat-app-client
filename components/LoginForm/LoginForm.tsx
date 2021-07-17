@@ -3,65 +3,15 @@ import React, { useContext, useState } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
-
-interface Form {
-    email: string,
-    password: string
-}
-
-interface FormErrors {
-    emailError?: string | null,
-    passwordError?: string | null,
-    authError?: string
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        form: {
-            borderRadius: "10px",
-            padding: "30px"
-        },
-        title: {
-            marginBottom: '35px',
-            textAlign: "left",
-            [theme.breakpoints.down('lg')]: {
-                fontSize: 25
-            },
-            [theme.breakpoints.down('sm')]: {
-                fontSize: 35,
-                paddingBottom: 20
-            }
-        },
-        formInput: {
-            margin: '0px 0px 20px 0px',
-            background: "#fff"
-        },
-        formButton: {
-            fontSize: 17,
-            fontWeight: "bold",
-            padding: 13
-        },
-        registerLink: {
-            fontSize: 17,
-            borderBottom: "1px solid #7f6e9b",
-            [theme.breakpoints.down('lg')]: {
-                fontSize: 15
-            }
-        },
-        formLine: {
-            margin: '20px 0px'
-        },
-        alert: {
-            marginBottom: 20
-        }
-    }));
+import { Form, FormErrors } from './interfaces';
+import LoginFormStyles from './login-form.style';
 
 const initialErrors = {
     emailError: null, passwordError: null
 }
 
 const LoginForm = () => {
-    const classes = useStyles()
+    const classes = LoginFormStyles()
 
     const { store } = useContext(Context)
 
@@ -139,15 +89,18 @@ const LoginForm = () => {
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Войти
                 </Button>
+
                 <Divider className={classes.formLine} />
+
                 <Box textAlign="center">
                     Нет аккаунта?&nbsp;
                     <Typography variant="inherit" color="primary" className={classes.registerLink}>
-                        <Link href="/registration">
+                        <Link href="/signup">
                             Зарегистрироваться
                         </Link>
                     </Typography>
                 </Box>
+                
             </form>
         </FormControl>
     );

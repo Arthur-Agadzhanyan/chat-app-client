@@ -1,44 +1,12 @@
-import { Button, createStyles, Zoom, Grid, makeStyles, Theme, Typography, Snackbar, IconButton } from '@material-ui/core';
+import { Button, Zoom, Grid, Typography, Snackbar, IconButton } from '@material-ui/core';
 import React, { FC, useState } from 'react';
-import Store from '../../store/store';
-import VerificationInput from './VerificationInput';
+import VerificationInput from '../VerificationInput/VerificationInput';
 import CloseIcon from '@material-ui/icons/Close';
+import VerificationAlertStyles from './verification-alert.style';
+import { VerificationAlertProps } from './types';
 
-
-type Props = {
-    store: Store
-}
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        content: {
-            minHeight: "90vh",
-            flexGrow: 2,
-            background: "#f5f5f5"
-        },
-        container: {
-            background: "#fff",
-            borderRadius: 20,
-            boxShadow: "0px 0px 16px #ccc",
-            padding: "70px 30px 35px 30px ",
-            textAlign: "center",
-        },
-        title: {
-            marginBottom: 20,
-            fontWeight: 'bold'
-        },
-        logoutBtn: {
-            marginTop: 20,
-            padding: "10px 20px"
-        },
-        alert: {
-            margin: "10px 0px"
-        }
-    }),
-);
-
-const VerificationAlert: FC<Props> = ({ store }) => {
-    const classes = useStyles()
+const VerificationAlert: FC<VerificationAlertProps> = ({ store }) => {
+    const classes = VerificationAlertStyles()
     const [success, setSuccess] = useState()
     const [error, setError] = useState()
     const [open, setOpen] = useState(true)

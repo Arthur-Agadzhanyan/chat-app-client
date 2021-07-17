@@ -1,18 +1,7 @@
 import React, { FC } from 'react';
-import { createStyles, makeStyles, Theme, Card, CardHeader, Avatar } from "@material-ui/core"
 import Link from "next/link"
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        chatLink:{
-            transition: "all .2s linear",
-            cursor: "pointer",
-            '&:hover':{
-                background: "#efefef"
-            }
-        }
-    }),
-);
+import { Card, CardHeader, Avatar } from "@material-ui/core"
+import ChatLinkStyles from './chatlink.style';
 
 interface Props {
     username: string,
@@ -20,7 +9,7 @@ interface Props {
 }
 
 const ChatLink: FC<Props> = ({ username, chatLink }) => {
-    const classes = useStyles()
+    const classes = ChatLinkStyles()
     return (
         <Link href={`/chats/${chatLink}`}>
             <Card elevation={0} className={classes.chatLink}>
