@@ -18,7 +18,7 @@ const ChatsStyles = makeStyles((theme: Theme) =>
             }
         },
         chats: {
-            // display: "none",
+            display: "none",
             background: "#fff",
             height: "98%",
             paddingTop: 15,
