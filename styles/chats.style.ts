@@ -18,12 +18,11 @@ const ChatsStyles = makeStyles((theme: Theme) =>
             }
         },
         chats: {
+            // display: "none",
             background: "#fff",
-            height: "96%",
+            height: "98%",
             paddingTop: 15,
             border: "1px solid #ccc",
-
-
         },
         chatSearch: {
             width: "270px",
@@ -37,53 +36,76 @@ const ChatsStyles = makeStyles((theme: Theme) =>
         },
         messages: {
             background: "#fff",
-            height: "96%",
+            height: "98%",
+            
+           
             paddingTop: 15,
             border: "1px solid #ccc",
             borderLeft: "none",
-            
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            [theme.breakpoints.down('sm')]: {
+                width: "100%",
+            }
         },
         messageContainer: {
-            height: "80%",
+            maxHeight: "75%",
             overflowY: "auto",
             overflowX: "hidden"
-        },
+        },//790
         messageList: {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-end",
         },
         inputContainer: {
-            width: "90%",
-            maxHeight: "20%",
-            margin: "auto",
-            marginTop: "auto",
-            padding: "7px 10px",
-            borderRadius: "20px",
+            display: "flex",
+            alignItems: "flex-end",
+            minHeight: "20%",
+            // height: "20vh",
+            justifyContent: "center",
+            zIndex: 110
+        },
+        inputBorder:{
             display: "flex",
             alignItems: "center",
-            border: "1px solid #ccc"
+            marginBottom: "10px",
+            borderRadius: "20px",
+            padding: "7px 10px",
+            
+            width: "90%",
+            border: "1px solid #ccc",
+            [theme.breakpoints.down('xs')]:{
+                width: "98%",
+                padding: "7px 10px",
+                marginBottom: "5px",
+            }
         },
         attachFile: {
-            flex: "0 1 10%",
             alignItems: "center",
 
         },
         messageInputContainer: {
-            flex: "0 1 70%",
+            flex: "0 1 80%",
             alignItems: "center",
         },
         messageInput: {
             width: "100%",
             resize: "none",
             padding: "8px 9px",
-            fontSize: 17,
-            border: "none"
+            fontSize: 15,
+            border: "none",
+            // fontFamily: 'Big Shoulders Display'
         },
         sendMessage: {
-            flex: "0 1 20%",
-            alignItems: "center",
-
+            marginLeft: "auto",
+            marginRight: 20,
+            textAlign: "center",
+            [theme.breakpoints.down('xs')]:{
+                marginRight: 3,
+                marginLeft: 3
+            }
         }
     }),
 );
