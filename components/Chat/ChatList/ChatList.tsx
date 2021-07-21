@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import ChatLink from '../../ChatLink/ChatLink';
 import { ChatListProps } from './interfaces';
 
-const ChatList: FC<ChatListProps> = ({ store, sm, lg, mbVisible }) => {
+const ChatList: FC<ChatListProps> = ({ store, xs, sm, md,lg, mbVisible }) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -14,13 +14,24 @@ const ChatList: FC<ChatListProps> = ({ store, sm, lg, mbVisible }) => {
                 paddingTop: 15,
                 border: "1px solid #ccc",
                 [theme.breakpoints.down('xs')]: {
-                    display: mbVisible ? "block" : "none"
+                    display: mbVisible ? "block" : "none",
+                    [theme.breakpoints.down('sm')]: {
+                        height: "100%",
+                        width: "100%",
+                    }
                 }
             },
             chatSearch: {
-                width: "270px",
-                margin: "5px 15px",
+                width: "90%",
                 height: "10%",
+                margin: "0 auto",
+                
+                [theme.breakpoints.down('xs')]: {
+                    display: mbVisible ? "block" : "none"
+                }
+            },
+            chatSearchInput:{
+                width: "100%"
             },
             chatList: {
                 height: "90%",
@@ -40,11 +51,11 @@ const ChatList: FC<ChatListProps> = ({ store, sm, lg, mbVisible }) => {
     }
 
     return (
-        <Grid item sm={sm} lg={lg} className={classes.chats}>
+        <Grid item xs={xs} sm={sm} md={md} lg={lg} className={classes.chats}>
 
-            <form onSubmit={searchUsers}>
+            <form onSubmit={searchUsers} className={classes.chatSearch}>
                 <TextField
-                    className={classes.chatSearch}
+                    className={classes.chatSearchInput}
                     label="Поиск"
                     id="search"
                     variant="standard"
@@ -59,7 +70,7 @@ const ChatList: FC<ChatListProps> = ({ store, sm, lg, mbVisible }) => {
                 <ChatLink username={"Jeff Bezos"} chatLink={"2131231243214"} />
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
                 <ChatLink username={"Ronald Wayne"} chatLink={"2131231243214"} />
-                <ChatLink username={"Анатолий"} chatLink={"2131231243214"} />
+                <ChatLink username={"Lorem ipsum dolor sit amet consectetur adi"} chatLink={"2131231243214"} />
                 <ChatLink username={"Elon Musk"} chatLink={"21312312414"} />
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />

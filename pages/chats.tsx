@@ -12,8 +12,8 @@ const chats = () => {
 
     return (
         <Grid className={classes.content} container>
-            <ChatList store={store} sm={12} lg={2} mbVisible={true}/>
-            <Grid item sm={12} lg={5} className={classes.messages}>
+            <ChatList store={store} xs={12} sm={4} lg={2} md={3} mbVisible={true}/>
+            <Grid item xs={12} sm={8} lg={5} md={7} className={classes.messages}>
                 
             </Grid>
         </Grid>
