@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { AppBar, Toolbar, Typography, Grid, Card, CardHeader, Avatar, Box, Popper, Fade, Paper, PopperPlacementType, Button, Menu, MenuItem } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Grid, Avatar, Box, Paper, Menu, MenuItem } from '@material-ui/core';
 import Link from "next/link"
 import { HeaderProps } from './interfaces';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
