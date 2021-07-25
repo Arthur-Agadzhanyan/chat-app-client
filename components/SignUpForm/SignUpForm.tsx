@@ -8,7 +8,7 @@ import { Form,FormErrors } from './interfaces';
 import SignUpFormStyles from './signup-form.style';
 
 const initialErrors = {
-     ageError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
+    birthdayError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
 }
 
 const SignUp = () => {
@@ -42,7 +42,7 @@ const SignUp = () => {
             return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
         }
         if(!selectedDate){
-            return setErrors({ ...errors, ageError: "Поле для ввода даты рождения не должно быть пустым" })
+            return setErrors({ ...errors, birthdayError: "Поле для ввода даты рождения не должно быть пустым" })
         }
         if (!form.location.trim()) {
             return setErrors({ ...errors, locationError: "Поле для ввода города не должно быть пустым" })
@@ -60,7 +60,7 @@ const SignUp = () => {
     }
 
     const errorAlerts = () => {
-        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError || errors.ageError || errors.locationError) {
+        if (errors.firstNameError || errors.lastNameError || errors.emailError || errors.passwordError || errors.birthdayError || errors.locationError) {
             const messages = Object.values(errors).filter(n => n)
             return messages.map((error, i) => (
                 <Zoom in={true} key={`${error}_${i}`}>
@@ -146,7 +146,7 @@ const SignUp = () => {
                     label="Дата рождения" 
                     selectedDate={selectedDate} 
                     setSelectedDate={setSelectedDate} 
-                    error = {errors.ageError ? true : false}
+                    error = {errors.birthdayError ? true : false}
                 />
                 <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться

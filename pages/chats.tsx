@@ -24,4 +24,4 @@ const chats = () => {
     );
 }
 
-export default observer(chats);
+export default observer(withAuth(chats));

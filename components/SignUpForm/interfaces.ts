@@ -7,7 +7,7 @@ export interface Form {
 }
 
 export interface FormErrors {
-    ageError?: string | null,
+    birthdayError?: string | null,
     emailError?: string | null,
     passwordError?: string | null,
     firstNameError?: string | null,

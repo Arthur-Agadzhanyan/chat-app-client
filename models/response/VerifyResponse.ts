@@ -3,5 +3,7 @@ export interface VerifyResponse {
     email: string,
     firstName: string,
     lastName: string,
-    verified: boolean
+    verified: boolean,
+    accessToken: string,
+    refreshToken: string
 }

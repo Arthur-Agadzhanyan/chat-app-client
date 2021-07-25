@@ -6,5 +6,6 @@ export interface Form {
 export interface FormErrors {
     emailError?: string | null,
     passwordError?: string | null,
-    authError?: string
+    authError?: string,
+    verifyError?: string,
 }

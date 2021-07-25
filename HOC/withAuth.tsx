@@ -3,7 +3,7 @@ import React, { FC, useContext } from "react";
 import { Context } from "../pages/_app";
 import Header from "../components/Header/Header";
 
-const notWithAuth = (WrappedComponent: any) => {
+const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
 
     if (typeof window !== "undefined") {
@@ -13,15 +13,15 @@ const notWithAuth = (WrappedComponent: any) => {
       if (store.isLoading) { // если 
         return <h1>Loading...</h1>
       } else if (!store.isAuth) {
-        Router.push("/")
+        Router.replace("/")
         return null
       } else if (!store.user.verified && Router.pathname !== '/verify') {
-        Router.push("/verify")
+        Router.replace("/verify")
         return null
       }
 
       return (<>
-        <Header/>
+        <Header store={store}/>
         <WrappedComponent {...props} />
       </>)
     }
@@ -30,4 +30,4 @@ const notWithAuth = (WrappedComponent: any) => {
   };
 };
 
-export default notWithAuth;
+export default withAuth;

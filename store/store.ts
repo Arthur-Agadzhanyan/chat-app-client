@@ -39,6 +39,7 @@ export default class Store {
     async signup(firstName: string,lastName:string, email:string, password: string,location: string, birthday: Date | null){
         try{
             const response = await AuthService.signup(firstName,lastName, email, password,location,birthday)
+            console.log(response)
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
@@ -62,11 +63,13 @@ export default class Store {
             this.setLoginError({} as LoginError)
             this.setAuth(true)
             
-        }catch(e: any){
-            
-            // if(e.response.status == 403){
-            //     this.setLoginError({authError: "text"} as LoginError)
-            // }
+        }catch(e: any){       
+            if(e.response.status == 403){
+                const errorObj: LoginError = e.response?.data.data
+                this.setUser({email: e.response.data.email,firstName: e.response.data.firstName,verified: e.response.data.verified} as User)
+                this.setAuth(true)
+                return this.setLoginError({...errorObj, verifyError: "Аккаунт не подтверждён"})
+            }
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
             console.log(e.response?.data.data)
@@ -87,9 +90,15 @@ export default class Store {
     async sendVerificationCode(setSuccess: Function,setError:Function, hash:string){
         try{
             const response = await AuthService.sendVerificationCode(hash)
-            console.log(response)
+            const data = response.data
             setSuccess("success")
-            this.user.verified = true
+
+            localStorage.setItem('token', data.accessToken)
+            localStorage.setItem('refreshToken', data.refreshToken)
+
+            console.log(response.data)
+            this.setUser(response.data as User)
+            this.setAuth(true)
         }catch(e:any){
             console.log(e)
             setError(e.response?.data)
@@ -118,6 +127,9 @@ export default class Store {
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
+
+            console.log(response.data)
+
             this.setUser(response.data as User)
             this.setAuth(true)
         } catch (e: any) {

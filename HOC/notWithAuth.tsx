@@ -14,10 +14,10 @@ const withAuth = (WrappedComponent: any) => {
         return <h1>Loading...</h1>
       } else if(store.isAuth){ // если пользователь авторизован 
         if(!store.user.verified && Router.pathname !== "/verify"){ // если пользователь не подтвердил свою почту и он не находится на странице /verify
-          Router.push('/verify')
+          Router.replace('/verify')
           return null
         }else if(store.user.verified){ // если почта подтверждена
-          Router.push('/chats')
+          Router.replace('/chats')
           return null
         }
       }

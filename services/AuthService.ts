@@ -10,7 +10,7 @@ export default class AuthService {
     }
 
     static async signup(firstName: string, lastName:string, email: string, password: string,location:string, birthday: Date | null,):Promise<AxiosResponse<SignUpResponse>> {
-        return $api.post<LoginResponse>('/auth/signup',{firstName,lastName,email,password,country:location,birthday})
+        return $api.post<LoginResponse>('/auth/signup',{firstName,lastName,email,password,location,birthday})
     }
 
     static async getVerificationCode(email:string):Promise<AxiosResponse<VerifyResponse>>{

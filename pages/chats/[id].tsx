@@ -24,4 +24,4 @@ const chat = () => {
     );
 }
 
-export default observer(chat);
+export default observer(withAuth(chat));

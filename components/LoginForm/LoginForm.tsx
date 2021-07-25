@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Alert } from '@material-ui/lab';
 import { Form, FormErrors } from './interfaces';
 import LoginFormStyles from './login-form.style';
+import { useRouter } from 'next/router';
 
 const initialErrors = {
     emailError: null, passwordError: null
@@ -14,6 +15,7 @@ const LoginForm = () => {
     const classes = LoginFormStyles()
 
     const { store } = useContext(Context)
+    const Router = useRouter()
 
     const [form, setForm] = useState<Form>({
         email: "", password: ""
@@ -53,6 +55,10 @@ const LoginForm = () => {
                 </Zoom>
             ))
         }
+    }
+
+    if(errors.verifyError){
+        Router.replace('/verify')
     }
 
     return (
