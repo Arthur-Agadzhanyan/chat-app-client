@@ -31,7 +31,7 @@ const VerificationAlert: FC<VerificationAlertProps> = ({ store }) => {
                             <Grid item xs={12} sm={7} md={6} lg={5} xl={4} className={classes.container}>
                                 <Typography variant="h5" className={classes.title}>Добро пожаловать в Бренд, {store.user.firstName}!</Typography>
                                 <div> Подтвердите свой адрес электронной почты для начала. Если ваш аккаунт когда-либо будет заблокирован, это поможет вам восстановить к нему доступ.</div>
-                                <Button className={classes.logoutBtn} variant="contained" color="primary" disableElevation onClick={getVerificationCode}>Подтвердите ваш эл. адрес</Button>
+                                <Button id="get_code_btn" className={classes.getCodeBtn} variant="contained" color="primary" disableElevation onClick={getVerificationCode}>Подтвердите ваш эл. адрес</Button>
                             </Grid>
                         </Zoom>
 

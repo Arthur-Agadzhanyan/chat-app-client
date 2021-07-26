@@ -3,7 +3,7 @@ import React, { FC, useContext } from "react";
 
 import { Context } from "../pages/_app";
 
-const withAuth = (WrappedComponent: any) => {
+const notWithAuth = (WrappedComponent: any) => {
   return (props: any) => {
 
     if (typeof window !== "undefined") {
@@ -29,4 +29,4 @@ const withAuth = (WrappedComponent: any) => {
   };
 };
 
-export default withAuth;
+export default notWithAuth;

@@ -92,7 +92,7 @@ const LoginForm = () => {
                     onChange={changeHandler}
                     error={(errors.passwordError && errors.passwordError !== null) ? true : false}
                 />
-                <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
+                <Button id="login_btn" className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Войти
                 </Button>
 

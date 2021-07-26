@@ -59,12 +59,8 @@ const Header: FC<HeaderProps> = ({ store }) => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
                 transformOrigin={{
-                    vertical: 'top',
+                    vertical: 'bottom',
                     horizontal: 'center',
                 }}
                 elevation={0}

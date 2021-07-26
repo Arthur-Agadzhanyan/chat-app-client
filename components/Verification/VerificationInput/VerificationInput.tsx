@@ -46,7 +46,7 @@ const VerificationInput: FC<VerificationInputProps> = ({ store }) => {
                             onChange={changeHandler}
                             error={error ? true : false}
                         />
-                        <Button className={classes.logoutBtn} variant="contained" color="primary" type="submit" disableElevation>Отправить код </Button>
+                        <Button id="send_code_btn" className={classes.logoutBtn} variant="contained" color="primary" type="submit" disableElevation>Отправить код </Button>
 
                     </form>
                 </Grid>

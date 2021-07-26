@@ -17,7 +17,7 @@ const VerificationAlertStyles = makeStyles((theme: Theme) =>
             marginBottom: 20,
             fontWeight: 'bold'
         },
-        logoutBtn: {
+        getCodeBtn: {
             marginTop: 20,
             padding: "10px 20px"
         },

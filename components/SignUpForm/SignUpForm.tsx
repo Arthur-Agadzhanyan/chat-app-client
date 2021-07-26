@@ -142,13 +142,13 @@ const SignUp = () => {
                     error={(errors.locationError && errors.locationError !== null) ? true : false}
                 />
                 <DatePicker 
-                    id="age" 
+                    id="birthday" 
                     label="Дата рождения" 
                     selectedDate={selectedDate} 
                     setSelectedDate={setSelectedDate} 
                     error = {errors.birthdayError ? true : false}
                 />
-                <Button className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
+                <Button id="signup_btn" className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться
                 </Button>
                 <Divider className={classes.formLine} />
