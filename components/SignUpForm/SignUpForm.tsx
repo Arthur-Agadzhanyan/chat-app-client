@@ -1,11 +1,12 @@
 import { Button, FormControl, TextField, Divider, Typography, Box, Zoom } from '@material-ui/core';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
 import DatePicker from '../DatePicker/DatePicker';
 import { Form,FormErrors } from './interfaces';
 import SignUpFormStyles from './signup-form.style';
+import axios from 'axios';
 
 const initialErrors = {
     birthdayError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
@@ -24,6 +25,43 @@ const SignUp = () => {
     );
 
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
+    const [countries,setCountries] = useState<string[]>([])
+
+    const getCountries = ()=>{
+        return new Promise((resolve,reject)=>{
+            const request = new XMLHttpRequest()
+            request.open("GET","cities.json")
+            request.onload = function(){
+                try {
+                    if(this.status == 200){
+                        const fetched = JSON.parse(this.response)
+                        const response: string[] = []
+                        fetched.map((country: any)=>{
+                            response.push(country.name)
+                        })
+                        // console.log(response.sort())
+                        resolve(response.sort())
+                    }else{
+                        reject(`${this.status}: ${this.statusText}`)
+                    }
+                } catch (error: any) {
+                    reject(error.message)
+                }
+            }
+
+            request.onerror = function(){
+                reject(`${this.status}: ${this.statusText}`)
+            }
+
+            request.send()
+        })
+    }
+
+    useEffect(() => {
+        getCountries().then((data: any)=>{
+            setCountries(data)
+        })
+    }, []);
 
     const getIntoTheAccount = (e: React.FormEvent) => {
         e.preventDefault()
@@ -56,6 +94,7 @@ const SignUp = () => {
     }
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(countries)
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 

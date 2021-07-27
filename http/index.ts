@@ -8,10 +8,12 @@ const $api = axios.create({
     baseURL: API_URL
 })
 
-$api.interceptors.request.use((successReq: AxiosRequestConfig)=>{
-    successReq.headers.Authorization = `Bearer ${localStorage.getItem('token')}` // к каждому нашему запросу прикрепляем наш access токен
-    return successReq
-})
+if(typeof window !== "undefined"){
+    $api.interceptors.request.use((successReq: AxiosRequestConfig)=>{
+        successReq.headers.Authorization = `Bearer ${localStorage.getItem('token')}` // к каждому нашему запросу прикрепляем наш access токен
+        return successReq
+    })
+}
 
 // $api.interceptors.response.use((successRes: AxiosResponse)=>{ // срабатывает каждый раз когда мы получаем ответ
 //     return successRes
