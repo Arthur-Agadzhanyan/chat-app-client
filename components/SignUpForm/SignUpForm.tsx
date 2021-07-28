@@ -1,15 +1,15 @@
 import { Button, FormControl, TextField, Divider, Typography, Box, Zoom } from '@material-ui/core';
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Context } from '../../pages/_app';
 import Link from "next/link"
 import { Alert } from '@material-ui/lab';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import DatePicker from '../DatePicker/DatePicker';
-import { Form,FormErrors } from './interfaces';
+import { Form, FormErrors } from './interfaces';
 import SignUpFormStyles from './signup-form.style';
-import axios from 'axios';
 
 const initialErrors = {
-    birthdayError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null , locationError: null
+    birthdayError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null, locationError: null
 }
 
 const SignUp = () => {
@@ -25,23 +25,23 @@ const SignUp = () => {
     );
 
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
-    const [countries,setCountries] = useState<string[]>([])
+    const [countries, setCountries] = useState<string[]>([])
 
-    const getCountries = ()=>{
-        return new Promise((resolve,reject)=>{
+    const getCountries = () => {
+        return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest()
-            request.open("GET","cities.json")
-            request.onload = function(){
+            request.open("GET", "cities.json")
+            request.onload = function () {
                 try {
-                    if(this.status == 200){
+                    if (this.status == 200) {
                         const fetched = JSON.parse(this.response)
                         const response: string[] = []
-                        fetched.map((country: any)=>{
+                        fetched.map((country: any) => {
                             response.push(country.name)
                         })
                         // console.log(response.sort())
                         resolve(response.sort())
-                    }else{
+                    } else {
                         reject(`${this.status}: ${this.statusText}`)
                     }
                 } catch (error: any) {
@@ -49,7 +49,7 @@ const SignUp = () => {
                 }
             }
 
-            request.onerror = function(){
+            request.onerror = function () {
                 reject(`${this.status}: ${this.statusText}`)
             }
 
@@ -58,7 +58,7 @@ const SignUp = () => {
     }
 
     useEffect(() => {
-        getCountries().then((data: any)=>{
+        getCountries().then((data: any) => {
             setCountries(data)
         })
     }, []);
@@ -79,14 +79,14 @@ const SignUp = () => {
         if (!form.password.trim()) {
             return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
         }
-        if(!selectedDate){
+        if (!selectedDate) {
             return setErrors({ ...errors, birthdayError: "Поле для ввода даты рождения не должно быть пустым" })
         }
-        if (!form.location.trim()) {
+        if (!form.location || !form.location.trim()) {
             return setErrors({ ...errors, locationError: "Поле для ввода города не должно быть пустым" })
         }
 
-        store.signup(form.firstName, form.lastName, form.email, form.password, form.location,selectedDate).then(() => {
+        store.signup(form.firstName, form.lastName, form.email, form.password, form.location, selectedDate).then(() => {
             if (store.loginErrors) {
                 setErrors(store.loginErrors)
             }
@@ -94,8 +94,14 @@ const SignUp = () => {
     }
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(countries)
         setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    const changeCountry = (event: any, newValue: string | null)=>{
+        if(!newValue){
+            setForm({ ...form, location: "" })
+        }
+        setForm({ ...form, location: newValue as string })
     }
 
     const errorAlerts = () => {
@@ -110,6 +116,11 @@ const SignUp = () => {
             ))
         }
     }
+
+    const filterOptions = createFilterOptions({
+        matchFrom: 'start',
+        stringify: (option: string) => option,
+    });
 
     return (
         <FormControl className={classes.form}>
@@ -143,7 +154,7 @@ const SignUp = () => {
                     onChange={changeHandler}
                     error={(errors.lastNameError && errors.lastNameError !== null) ? true : false}
                 />
-                
+
                 <TextField
                     className={classes.formInput}
                     fullWidth
@@ -168,24 +179,30 @@ const SignUp = () => {
                     onChange={changeHandler}
                     error={(errors.passwordError && errors.passwordError !== null) ? true : false}
                 />
-                <TextField
-                    className={classes.formInput}
-                    fullWidth
+                <Autocomplete
                     id="location"
-                    name="location"
-                    type='text'
-                    label="Город"
-                    variant='outlined'
-                    value={form.location}
-                    onChange={changeHandler}
-                    error={(errors.locationError && errors.locationError !== null) ? true : false}
+                    className={classes.formInput}
+                    options={countries}
+                    getOptionLabel={(country) => country}
+                    onChange={changeCountry}
+                    filterOptions={filterOptions}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            name="location"
+                            label="Город"
+                            variant="outlined"
+                            value={form.location}
+                            error={(errors.locationError && errors.locationError !== null) ? true : false}
+                        />
+                    )}
                 />
-                <DatePicker 
-                    id="birthday" 
-                    label="Дата рождения" 
-                    selectedDate={selectedDate} 
-                    setSelectedDate={setSelectedDate} 
-                    error = {errors.birthdayError ? true : false}
+                <DatePicker
+                    id="birthday"
+                    label="Дата рождения"
+                    selectedDate={selectedDate}
+                    setSelectedDate={setSelectedDate}
+                    error={errors.birthdayError ? true : false}
                 />
                 <Button id="signup_btn" className={classes.formButton} color="primary" variant="contained" fullWidth type="submit" disableElevation>
                     Зарегистрироваться
