@@ -68,6 +68,12 @@ const Header: FC<HeaderProps> = ({ store }) => {
             >
                 <Paper className={classes.poppup}>
                     <Typography className={classes.poppup__title}>{store.user.firstName} {store.user.lastName}</Typography>
+                    <Link href="/chats">
+                        <MenuItem onClick={handleClose} className={classes.poppup__link}>Чаты</MenuItem>
+                    </Link>
+                    <Link href="/users">
+                        <MenuItem onClick={handleClose} className={classes.poppup__link}>Пользователи</MenuItem>
+                    </Link>
                     <Link href="/settings">
                         <MenuItem onClick={handleClose} className={classes.poppup__link}>Настройки</MenuItem>
                     </Link>

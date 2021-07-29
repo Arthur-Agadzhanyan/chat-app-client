@@ -5,9 +5,8 @@ import { useRouter } from 'next/router';
 import { User } from './../models/User';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
+import UsersService from '../services/UsersService';
 import { LoginError } from '../models/LoginError';
-
-
 
 export default class Store {
     user = {} as User
@@ -48,7 +47,6 @@ export default class Store {
 
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
-            console.log(errorObj)
         }
     }
     // Для входа в аккаунт
@@ -72,7 +70,6 @@ export default class Store {
             }
             const errorObj: LoginError = e.response?.data.data
             this.setLoginError(errorObj)
-            console.log(e.response?.data.data)
 
         }
     }
@@ -95,8 +92,6 @@ export default class Store {
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
-
-            console.log(response.data)
             this.setUser(response.data as User)
             this.setAuth(true)
         }catch(e:any){
@@ -115,6 +110,7 @@ export default class Store {
 
     // Для обновления jwt access & refresh токенов
     async checkAuth() {
+        this.setLoading(true)
         try {
             const refreshToken = localStorage.getItem('refreshToken')
 
@@ -128,13 +124,21 @@ export default class Store {
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
 
-            console.log(response.data)
-
             this.setUser(response.data as User)
             this.setAuth(true)
         } catch (e: any) {
         } finally{
             this.setLoading(false)
+        }
+    }
+
+
+    async getAllUsers(){
+        try{
+            const response = await UsersService.getAllUsers()
+            console.log(response.data)
+        }catch(e){
+            console.log(e)
         }
     }
 }

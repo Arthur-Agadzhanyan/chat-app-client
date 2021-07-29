@@ -5,5 +5,6 @@ export interface VerifyResponse {
     lastName: string,
     verified: boolean,
     accessToken: string,
-    refreshToken: string
+    refreshToken: string,
+    length: number
 }

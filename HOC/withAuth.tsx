@@ -10,18 +10,23 @@ const withAuth = (WrappedComponent: any) => {
       const { store } = useContext(Context)
       const Router = useRouter()
 
-      if (store.isLoading) { // если 
-        return <h1>Loading...</h1>
-      } else if (!store.isAuth) {
-        Router.replace("/")
-        return null
-      } else if (!store.user.verified && Router.pathname !== '/verify') {
-        Router.replace("/verify")
-        return null
-      }
+        if (store.isLoading) { // если 
+          return <h1>Loading...</h1>
+        } 
+
+        else if (!localStorage.getItem("token")) {
+          Router.replace("/")
+          return null
+        } 
+
+        else if (store.user.length && !store.user.verified && Router.pathname !== '/verify') {
+          Router.replace("/verify")
+          return null
+        }
+      
 
       return (<>
-        <Header store={store}/>
+        <Header store={store} />
         <WrappedComponent {...props} />
       </>)
     }

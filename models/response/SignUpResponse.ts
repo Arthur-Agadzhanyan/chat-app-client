@@ -3,5 +3,6 @@ export interface SignUpResponse {
     email: string,
     firstName: string,
     lastName: string,
-    verified: boolean
+    verified: boolean,
+    length: number
 }
