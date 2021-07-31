@@ -2,7 +2,8 @@ import { AxiosResponse } from "axios";
 import $api from "../http";
 
 export default class UsersService {
-    static async getAllUsers():Promise<AxiosResponse> {
-        return $api.get('/users')
+    static async getAllUsers(page: number = 1): Promise<AxiosResponse> {
+        console.log(`/users?limit=${10}&page=${page}`)
+        return $api.get(`/users?limit=${10}&page=${page}`)
     }
 }

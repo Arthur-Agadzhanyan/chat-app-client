@@ -133,10 +133,11 @@ export default class Store {
     }
 
 
-    async getAllUsers(){
+    async getAllUsers(page: number = 1){
         try{
-            const response = await UsersService.getAllUsers()
-            console.log(response.data)
+            const response = await UsersService.getAllUsers(page)
+            console.log(response.data.users)
+            return response.data.users
         }catch(e){
             console.log(e)
         }

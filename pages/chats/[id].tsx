@@ -12,8 +12,6 @@ const chat = () => {
     const { store } = useContext(Context)
     const classes = ChatsStyles()
 
-
-
     return (
         <Grid className={classes.content} container>
 
