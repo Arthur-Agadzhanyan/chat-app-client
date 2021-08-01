@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      console.log("aaa")
       store.checkAuth().then(()=>console.log(store))
     }
     /* Удаление CSS, внедренного на стороне сервера.*/

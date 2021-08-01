@@ -1,15 +1,13 @@
-import { LoginResponse } from '../models/response/LoginResponse';
 import { API_URL } from './../http/index';
 import { makeAutoObservable } from 'mobx';
-import { useRouter } from 'next/router';
-import { User } from './../models/User';
+import { VerifiedUser, NotVerifiedUser } from './../models/User';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 import UsersService from '../services/UsersService';
 import { LoginError } from '../models/LoginError';
 
 export default class Store {
-    user = {} as User
+    user = {} as VerifiedUser | NotVerifiedUser
     isAuth = false
     isLoading = false
     loginErrors = {} as LoginError
@@ -23,7 +21,7 @@ export default class Store {
         this.isAuth = bool
     }
 
-    setUser(user: User) {
+    setUser(user: VerifiedUser | NotVerifiedUser) {
         this.user = user
     }
 
@@ -42,7 +40,7 @@ export default class Store {
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
             this.setAuth(true)
-        }catch(e: any){
+        } catch(e: any){
             console.log(birthday)
 
             const errorObj: LoginError = e.response?.data.data
@@ -64,7 +62,7 @@ export default class Store {
         }catch(e: any){       
             if(e.response.status == 403){
                 const errorObj: LoginError = e.response?.data.data
-                this.setUser({email: e.response.data.email,firstName: e.response.data.firstName,verified: e.response.data.verified} as User)
+                this.setUser({email: e.response.data.email,firstName: e.response.data.firstName,verified: e.response.data.verified} as NotVerifiedUser)
                 this.setAuth(true)
                 return this.setLoginError({...errorObj, verifyError: "Аккаунт не подтверждён"})
             }
@@ -84,7 +82,7 @@ export default class Store {
         }
     }
 
-    async sendVerificationCode(setSuccess: Function,setError:Function, hash:string){
+    async sendVerificationCode(setSuccess: Function,setError: Function, hash: string){
         try{
             const response = await AuthService.sendVerificationCode(hash)
             const data = response.data
@@ -92,7 +90,7 @@ export default class Store {
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
-            this.setUser(response.data as User)
+            this.setUser(response.data)
             this.setAuth(true)
         }catch(e:any){
             console.log(e)
@@ -104,7 +102,7 @@ export default class Store {
     logout(){
         localStorage.removeItem('token')
         localStorage.removeItem('refreshToken')
-        this.setUser({} as User)
+        this.setUser({} as NotVerifiedUser)
         this.setAuth(false)
     }
 
@@ -123,8 +121,8 @@ export default class Store {
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
-
-            this.setUser(response.data as User)
+            console.log("yes")
+            this.setUser(response.data)
             this.setAuth(true)
         } catch (e: any) {
         } finally{
@@ -133,11 +131,11 @@ export default class Store {
     }
 
 
-    async getAllUsers(page: number = 1){
+    async getAllUsers(page: number = 1, limit: number = 10){
         try{
-            const response = await UsersService.getAllUsers(page)
-            console.log(response.data.users)
-            return response.data.users
+            const response = await UsersService.getAllUsers(page,limit)
+            console.log(response.data)
+            return response.data
         }catch(e){
             console.log(e)
         }

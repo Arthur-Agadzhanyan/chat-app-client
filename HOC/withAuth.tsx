@@ -11,12 +11,8 @@ const withAuth = (WrappedComponent: any) => {
     if (typeof window !== "undefined") {
       const { store } = useContext(Context)
       const Router = useRouter()
-
-      if (store.isLoading) { // если 
-        return <h1>Loading...</h1>
-      }
-
-      else if (!localStorage.getItem("token")) {
+      
+      if (!localStorage.getItem("refreshToken") && !store.isAuth) {
         Router.replace("/")
         return null
       }
@@ -25,7 +21,6 @@ const withAuth = (WrappedComponent: any) => {
         Router.replace("/verify")
         return null
       }
-
 
       return (<>
         <Header store={store} />

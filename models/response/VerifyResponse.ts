@@ -1,4 +1,5 @@
 export interface VerifyResponse {
+    _id: string,
     message: string,
     email: string,
     firstName: string,
