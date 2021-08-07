@@ -5,13 +5,14 @@ const UsersContainerStyles = makeStyles((theme: Theme) =>
         content: {
             display: "flex",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
         },
         users: {
             background: "#fff",
             minHeight: "90vh",
             boxShadow: "0px 0px 10px #ccc",
-            marginTop: "10px"
+            marginTop: "10px",
+            borderRadius: 5
         },
         topPanel: {
             borderBottom: "1px solid #ccc"

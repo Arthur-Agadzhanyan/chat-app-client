@@ -6,6 +6,8 @@ import { observer } from 'mobx-react-lite'
 import theme from '../theme'
 import { ThemeProvider } from '@material-ui/core'
 import Header from '../components/Header/Header'
+import moment from "moment"
+import 'moment/locale/ru'
 
 interface State {
   store: Store
@@ -21,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { store } = useContext(Context)
 
   useEffect(() => {
+
     if (localStorage.getItem('token')) {
       store.checkAuth().then(()=>console.log(store))
     }
@@ -29,7 +32,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (jssStyles && jssStyles.parentElement) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-    
   }, [])
 
   return (

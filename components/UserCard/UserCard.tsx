@@ -3,10 +3,10 @@ import React, { FC } from 'react';
 import { UserCardProps } from './interfaces';
 import UserCardStyles from './user-card.style';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import moment from 'moment'
 
 const UserCard: FC<UserCardProps> = ({user, friend = false}) => {
     const classes = UserCardStyles()
-
     return (
         <Card className={classes.userCard} elevation={0}>
             <CardMedia
@@ -19,10 +19,10 @@ const UserCard: FC<UserCardProps> = ({user, friend = false}) => {
                     {user.firstName} {user.lastName}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    День рождения: 28 января 2005 г.
+                    День рождения: {moment(user.birthday).format('LL')}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Город: Луганск
+                    Город: {user.location}
                 </Typography>
             </CardContent>
 

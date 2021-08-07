@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import withAuth from '../../HOC/withAuth';
 import { Context } from '../_app';
 import { Friend } from '../../models/Friend';
-import { Grid, Typography, Box, Card, CardActionArea, CardMedia, CardContent, CardActions, Button } from '@material-ui/core';
+import { Typography, Box, TextField, Grow, Zoom } from '@material-ui/core';
 import UsersStyles from '../../styles/users.style';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import UsersContainer from '../../components/UsersContainer/UsersContainer';
 import UserCard from '../../components/UserCard/UserCard';
+import TuneIcon from '@material-ui/icons/Tune';
 
 const users = () => {
     const classes = UsersStyles()
@@ -17,6 +17,7 @@ const users = () => {
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [fetching, setFetching] = useState<boolean>(true)
     const [totalCount, setTotalCount] = useState<number>(0)
+    const [advancedSettings, setAdvancedSettings] = useState<boolean>(false)
 
     useEffect(() => {
         if (fetching) {
@@ -30,7 +31,6 @@ const users = () => {
                 .finally(() => {
                     setFetching(false)
                 })
-
         }
     }, [fetching])
 
@@ -51,6 +51,10 @@ const users = () => {
         }
     }
 
+    const toggleAdvancedSettings = () => {
+        setAdvancedSettings(!advancedSettings)
+    }
+
     if (store.isLoading) {
         return <h1>Loading</h1>
     }
@@ -60,12 +64,80 @@ const users = () => {
             topPanel={
                 <Box className={classes.topPanel}>
                     <Typography variant="h4" className={classes.pageTitle}>Поиск друзей</Typography>
+                    <Box className={classes.searchContainer}>
+                        <TextField
+                            className={classes.search}
+                            fullWidth
+                            id="search"
+                            name="search"
+                            label="Поиск"
+                            type='text'
+                            variant='outlined'
+                        />
+                        <Typography className={classes.advancedSearch} onClick={toggleAdvancedSettings}>
+                            <TuneIcon className={classes.advancedSearchIcon} /> Расширенный поиск
+                        </Typography>
+
+                        {advancedSettings && (
+                            <Zoom in={advancedSettings}>
+                                <Box className={classes.advancedSearchContainer}>
+                                    {/* <Autocomplete
+                                    id="location"
+                                    className={classes.formInput}
+                                    options={countries}
+                                    getOptionLabel={(country) => country}
+                                    onChange={changeCountry}
+                                    filterOptions={filterOptions}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            name="location"
+                                            label="Город"
+                                            variant="outlined"
+                                            value={form.location}
+                                            error={(errors.locationError && errors.locationError !== null) ? true : false}
+                                        />
+                                    )}
+                                /> */}
+                                    <Box className={classes.searchLocation}>
+                                        <Typography>Регион</Typography>
+                                    </Box>
+                                    <Box className={classes.searchAge}>
+                                        <Typography className={classes.blockTitle}>Возраст</Typography>
+                                        <Box className={classes.ageInputs}>
+                                            <TextField
+                                                className={classes.ageInput}
+                                                fullWidth
+                                                id="age_from"
+                                                name="ageFrom"
+                                                label="От"
+                                                type='text'
+                                                variant='outlined'
+                                            />
+                                            <TextField
+                                                className={classes.ageInput}
+                                                fullWidth
+                                                id="age_from"
+                                                name="ageFrom"
+                                                label="До"
+                                                type='text'
+                                                variant='outlined'
+                                            />
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            </Zoom>
+
+                        )}
+
+
+                    </Box>
                 </Box>
-            }
-        >
-            {users && users.map((user: Friend,i:number) => (
+            }>
+
+            {users && users.map((user: Friend, i: number) => (
                 // <li style={{ padding: "20px", fontSize: "30px" }} key={user._id}>{user.firstName} {user.lastName}</li>
-                <UserCard key={`${user}_${i}`} user={user}/>
+                <UserCard key={`${user}_${i}`} user={user} />
             ))}
         </UsersContainer>
 
