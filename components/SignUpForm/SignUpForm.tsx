@@ -7,6 +7,7 @@ import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete
 import DatePicker from '../DatePicker/DatePicker';
 import { Form, FormErrors } from './interfaces';
 import SignUpFormStyles from './signup-form.style';
+import { useRouter } from 'next/router';
 
 const initialErrors = {
     birthdayError: null, emailError: null, passwordError: null, firstNameError: null, lastNameError: null, locationError: null
@@ -26,6 +27,8 @@ const SignUp = () => {
 
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
     const [countries, setCountries] = useState<string[]>([])
+
+    const Router = useRouter()
 
     const getCountries = () => {
         return new Promise((resolve, reject) => {
@@ -121,6 +124,10 @@ const SignUp = () => {
         matchFrom: 'start',
         stringify: (option: string) => option,
     });
+
+    if(errors.verifyError){
+        Router.replace('/verify')
+    }
 
     return (
         <FormControl className={classes.form}>

@@ -13,4 +13,5 @@ export interface FormErrors {
     firstNameError?: string | null,
     lastNameError?: string | null,
     locationError?: string | null,
+    verifyError?: string | null
 }

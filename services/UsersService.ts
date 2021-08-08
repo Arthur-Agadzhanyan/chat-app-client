@@ -6,4 +6,9 @@ export default class UsersService {
         console.log(`/users?limit=${limit}&page=${page}`)
         return $api.get(`/users?limit=${limit}&page=${page}`)
     }
+
+    static async sendFriendRequest(receiverId: string): Promise<AxiosResponse> {
+        console.log(`/friend-request`)
+        return $api.post(`/friend-request`,{receiverId})
+    }
 }

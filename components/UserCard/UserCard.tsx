@@ -5,8 +5,13 @@ import UserCardStyles from './user-card.style';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import moment from 'moment'
 
-const UserCard: FC<UserCardProps> = ({user, friend = false}) => {
+const UserCard: FC<UserCardProps> = ({user, store, friend = false}) => {
     const classes = UserCardStyles()
+
+    const sendFriendRequest = async (id: string)=>{
+        await store.sendFriendRequest(id)
+    }
+
     return (
         <Card className={classes.userCard} elevation={0}>
             <CardMedia
@@ -30,8 +35,8 @@ const UserCard: FC<UserCardProps> = ({user, friend = false}) => {
                 <Button className={classes.sendMessageBtn} size="medium" color="primary">
                     Отправить сообщение
                 </Button>
-                {friend && (
-                    <Button className={classes.addFriendBtn} size="medium" color="primary">
+                {!friend && (
+                    <Button className={classes.addFriendBtn} size="medium" color="primary" onClick={()=>sendFriendRequest(user._id)}>
                         <PersonAddIcon />
                     </Button>
                 )}

@@ -36,9 +36,9 @@ export default class Store {
     async signup(firstName: string,lastName:string, email:string, password: string,location: string, birthday: Date | null){
         try{
             const response = await AuthService.signup(firstName,lastName, email, password,location,birthday)
-            console.log(response)
+            // console.log(response)
             this.setUser(response.data)
-            this.setLoginError({} as LoginError)
+            this.setLoginError({verifyError: "Аккаунт не подтверждён"} as LoginError)
             this.setAuth(true)
         } catch(e: any){
             console.log(birthday)
@@ -112,6 +112,8 @@ export default class Store {
         try {
             const refreshToken = localStorage.getItem('refreshToken')
 
+            console.log(refreshToken)
+
             const response = await axios.patch(`${API_URL}/auth/refresh`,{}, {
                 headers:{ 
                     "Authorization": `Bearer ${refreshToken}`
@@ -119,12 +121,15 @@ export default class Store {
             })
             const data = response.data
 
+            console.log(data)
+
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
             console.log("yes")
             this.setUser(response.data)
             this.setAuth(true)
         } catch (e: any) {
+            console.log(e.response?.data)
         } finally{
             this.setLoading(false)
         }
@@ -138,6 +143,16 @@ export default class Store {
             return response.data
         }catch(e){
             console.log(e)
+        }
+    }
+
+    async sendFriendRequest(receiverId: string){
+        try {
+            const response = await UsersService.sendFriendRequest(receiverId)
+            console.log(receiverId)
+            console.log(response.data)
+        } catch (e: any) {
+            console.log(e.response?.data)
         }
     }
 }

@@ -35,17 +35,26 @@ const UsersStyles = makeStyles((theme: Theme) =>
             width: "100%",
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-between",
             paddingTop: 20
         },
         searchLocation:{
-            flex: "0 1 50%"
+            flex: "0 1 49%"
         },
+        locationInput:{
+            width: "100%"
+        },
+
         searchAge:{
-            flex: "0 1 50%"
+            flex: "0 1 49%"
         },
         blockTitle:{
             paddingBottom: 10,
             fontSize: 20
+        },
+        ageLabel:{
+            paddingLeft: 15,
+            marginTop: "-3px"
         },
         ageInputs:{
             display: "flex",

@@ -9,7 +9,7 @@ const friends = () => {
 
     return (
         <UsersContainer>
-            {JSON.stringify(store.user.friends)}
+            
         </UsersContainer>
     );
 }

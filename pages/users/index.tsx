@@ -3,11 +3,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import withAuth from '../../HOC/withAuth';
 import { Context } from '../_app';
 import { Friend } from '../../models/Friend';
-import { Typography, Box, TextField, Grow, Zoom } from '@material-ui/core';
+import { Typography, Box, TextField, Grow, Zoom, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import UsersStyles from '../../styles/users.style';
 import UsersContainer from '../../components/UsersContainer/UsersContainer';
 import UserCard from '../../components/UserCard/UserCard';
 import TuneIcon from '@material-ui/icons/Tune';
+import { Autocomplete, createFilterOptions } from '@material-ui/lab';
 
 const users = () => {
     const classes = UsersStyles()
@@ -17,7 +18,12 @@ const users = () => {
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [fetching, setFetching] = useState<boolean>(true)
     const [totalCount, setTotalCount] = useState<number>(0)
+
     const [advancedSettings, setAdvancedSettings] = useState<boolean>(false)
+    const [countries, setCountries] = useState<string[]>([])
+    const [advancedForm, setAdvancedForm] = useState({
+        location: "", ageFrom: "", ageTo: ""
+    })
 
     useEffect(() => {
         if (fetching) {
@@ -42,6 +48,26 @@ const users = () => {
 
     }, [fetching])
 
+    useEffect(() => {
+        getCountries().then((data: any) => {
+            setCountries(data)
+        })
+    }, [])
+
+    const changeCountry = (event: any, newValue: string | null) => {
+        if (!newValue) {
+            // setForm({ ...form, location: "" })
+        }
+        // setForm({ ...form, location: newValue as string })
+    }
+
+    const filterOptions = createFilterOptions({
+        matchFrom: 'start',
+        stringify: (option: string) => option,
+
+    });
+
+
     const scrollHandler = (e: any) => {
         if (window) {
             console.log(totalCount)
@@ -53,6 +79,36 @@ const users = () => {
 
     const toggleAdvancedSettings = () => {
         setAdvancedSettings(!advancedSettings)
+    }
+
+    const getCountries = () => {
+        return new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest()
+            request.open("GET", "cities.json")
+            request.onload = function () {
+                try {
+                    if (this.status == 200) {
+                        const fetched = JSON.parse(this.response)
+                        const response: string[] = []
+                        fetched.map((country: any) => {
+                            response.push(country.name)
+                        })
+                        // console.log(response.sort())
+                        resolve(response.sort())
+                    } else {
+                        reject(`${this.status}: ${this.statusText}`)
+                    }
+                } catch (error: any) {
+                    reject(error.message)
+                }
+            }
+
+            request.onerror = function () {
+                reject(`${this.status}: ${this.statusText}`)
+            }
+
+            request.send()
+        })
     }
 
     if (store.isLoading) {
@@ -81,31 +137,31 @@ const users = () => {
                         {advancedSettings && (
                             <Zoom in={advancedSettings}>
                                 <Box className={classes.advancedSearchContainer}>
-                                    {/* <Autocomplete
-                                    id="location"
-                                    className={classes.formInput}
-                                    options={countries}
-                                    getOptionLabel={(country) => country}
-                                    onChange={changeCountry}
-                                    filterOptions={filterOptions}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            name="location"
-                                            label="Город"
-                                            variant="outlined"
-                                            value={form.location}
-                                            error={(errors.locationError && errors.locationError !== null) ? true : false}
-                                        />
-                                    )}
-                                /> */}
+
                                     <Box className={classes.searchLocation}>
-                                        <Typography>Регион</Typography>
+                                        <Typography className={classes.blockTitle}>Регион</Typography>
+                                        <Autocomplete
+                                            id="location"
+                                            className={classes.locationInput}
+                                            options={countries}
+                                            getOptionLabel={(country) => country}
+                                            onChange={changeCountry}
+                                            filterOptions={filterOptions}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    name="location"
+                                                    label="Город"
+                                                    variant="outlined"
+                                                    value={advancedForm.location}
+                                                />
+                                            )}
+                                        />
                                     </Box>
                                     <Box className={classes.searchAge}>
                                         <Typography className={classes.blockTitle}>Возраст</Typography>
                                         <Box className={classes.ageInputs}>
-                                            <TextField
+                                            {/* <TextField
                                                 className={classes.ageInput}
                                                 fullWidth
                                                 id="age_from"
@@ -113,16 +169,48 @@ const users = () => {
                                                 label="От"
                                                 type='text'
                                                 variant='outlined'
-                                            />
-                                            <TextField
-                                                className={classes.ageInput}
-                                                fullWidth
-                                                id="age_from"
-                                                name="ageFrom"
-                                                label="До"
-                                                type='text'
-                                                variant='outlined'
-                                            />
+                                            /> */}
+                                            <FormControl className={classes.ageInput}>
+                                                <InputLabel className={classes.ageLabel} id="age_from-label">От</InputLabel>
+                                                <Select
+                                                    id="age_from"
+                                                    name="ageFrom"
+                                                    label="От"
+                                                    labelId="age_from-label"
+                                                    
+                                                    // value={age}
+                                                    // onChange={handleChange}
+                                                    variant='outlined'
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={10}>Ten</MenuItem>
+                                                    <MenuItem value={20}>Twenty</MenuItem>
+                                                    <MenuItem value={30}>Thirty</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl className={classes.ageInput}>
+                                                <InputLabel className={classes.ageLabel} id="age_to-label">До</InputLabel>
+                                                <Select
+                                                    
+                                                    id="age_to"
+                                                    name="ageTo"
+                                                    label="До"
+                                                    // value={age}
+                                                    // onChange={handleChange}
+                                                    variant='outlined'
+                                                    labelId="age_to-label"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    <MenuItem value={10}>Ten</MenuItem>
+                                                    <MenuItem value={20}>Twenty</MenuItem>
+                                                    <MenuItem value={30}>Thirty</MenuItem>
+                                                </Select>
+                                            </FormControl>
+
                                         </Box>
                                     </Box>
                                 </Box>
@@ -137,7 +225,7 @@ const users = () => {
 
             {users && users.map((user: Friend, i: number) => (
                 // <li style={{ padding: "20px", fontSize: "30px" }} key={user._id}>{user.firstName} {user.lastName}</li>
-                <UserCard key={`${user}_${i}`} user={user} />
+                <UserCard store={store} key={`${user}_${i}`} user={user} />
             ))}
         </UsersContainer>
 
