@@ -112,7 +112,7 @@ export default class Store {
         try {
             const refreshToken = localStorage.getItem('refreshToken')
 
-            console.log(refreshToken)
+            // console.log(refreshToken)
 
             const response = await axios.patch(`${API_URL}/auth/refresh`,{}, {
                 headers:{ 
@@ -121,11 +121,11 @@ export default class Store {
             })
             const data = response.data
 
-            console.log(data)
+            // console.log(data)
 
             localStorage.setItem('token', data.accessToken)
             localStorage.setItem('refreshToken', data.refreshToken)
-            console.log("yes")
+            // console.log("yes")
             this.setUser(response.data)
             this.setAuth(true)
         } catch (e: any) {
@@ -136,9 +136,9 @@ export default class Store {
     }
 
 
-    async getAllUsers(page: number = 1, limit: number = 10){
+    async getUsers(page: number = 1, limit: number = 10,fromAge: string = "14", toAge:string = "80", location: string | null){
         try{
-            const response = await UsersService.getAllUsers(page,limit)
+            const response = await UsersService.getUsers(page,limit,fromAge,toAge,location)
             console.log(response.data)
             return response.data
         }catch(e){

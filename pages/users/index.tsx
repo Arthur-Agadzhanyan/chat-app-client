@@ -16,28 +16,31 @@ const users = () => {
 
     const [users, setUsers] = useState<Friend[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
+
     const [fetching, setFetching] = useState<boolean>(true)
+
     const [totalCount, setTotalCount] = useState<number>(0)
 
     const [advancedSettings, setAdvancedSettings] = useState<boolean>(false)
     const [countries, setCountries] = useState<string[]>([])
     const [advancedForm, setAdvancedForm] = useState({
-        location: "", ageFrom: "", ageTo: ""
+        location: "", ageFrom: "14", ageTo: "80"
     })
 
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getAllUsers(currentPage, 14)
+            store.getUsers(currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
-                    setTotalCount(response.count)
+                    setTotalCount(response.total)
                 })
                 .finally(() => {
                     setFetching(false)
                 })
         }
+        
     }, [fetching])
 
     useEffect(() => {
@@ -54,9 +57,17 @@ const users = () => {
         })
     }, [])
 
-    const changeCountry = (event: any, newValue: string | null) => {
+    const changeCountry = (e: any, newValue: string | null) => {
         if (!newValue) {
-            // setForm({ ...form, location: "" })
+            setAdvancedForm({ ...advancedForm, location: "" })
+            setCurrentPage(1)
+            setUsers([])
+            setFetching(true)
+        }else{    
+            setAdvancedForm({ ...advancedForm, location: newValue as string})
+            setCurrentPage(1)
+            setUsers([])
+            setFetching(true)
         }
         // setForm({ ...form, location: newValue as string })
     }
@@ -70,7 +81,6 @@ const users = () => {
 
     const scrollHandler = (e: any) => {
         if (window) {
-            console.log(totalCount)
             if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100 && users.length < totalCount) {
                 setFetching(true)
             }
@@ -110,6 +120,14 @@ const users = () => {
             request.send()
         })
     }
+
+    const changeAge = async (e: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+        setAdvancedForm({ ...advancedForm, [e.target.name as string]: e.target.value as string })
+        setCurrentPage(1)
+        setUsers([])
+        setFetching(true)
+    };
+
 
     if (store.isLoading) {
         return <h1>Loading</h1>
@@ -161,15 +179,6 @@ const users = () => {
                                     <Box className={classes.searchAge}>
                                         <Typography className={classes.blockTitle}>Возраст</Typography>
                                         <Box className={classes.ageInputs}>
-                                            {/* <TextField
-                                                className={classes.ageInput}
-                                                fullWidth
-                                                id="age_from"
-                                                name="ageFrom"
-                                                label="От"
-                                                type='text'
-                                                variant='outlined'
-                                            /> */}
                                             <FormControl className={classes.ageInput}>
                                                 <InputLabel className={classes.ageLabel} id="age_from-label">От</InputLabel>
                                                 <Select
@@ -178,16 +187,13 @@ const users = () => {
                                                     label="От"
                                                     labelId="age_from-label"
                                                     
-                                                    // value={age}
-                                                    // onChange={handleChange}
+                                                    value={advancedForm.ageFrom}
+                                                    onChange={changeAge}
                                                     variant='outlined'
                                                 >
-                                                    <MenuItem value="">
-                                                        <em>None</em>
-                                                    </MenuItem>
-                                                    <MenuItem value={10}>Ten</MenuItem>
-                                                    <MenuItem value={20}>Twenty</MenuItem>
-                                                    <MenuItem value={30}>Thirty</MenuItem>
+                                                     {[...Array(67).keys()].map((item,i)=>(
+                                                        <MenuItem key={`${item}_${i}`} value={i+14}>{i+14}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                             <FormControl className={classes.ageInput}>
@@ -197,17 +203,14 @@ const users = () => {
                                                     id="age_to"
                                                     name="ageTo"
                                                     label="До"
-                                                    // value={age}
-                                                    // onChange={handleChange}
+                                                    value={advancedForm.ageTo}
                                                     variant='outlined'
                                                     labelId="age_to-label"
+                                                    onChange={changeAge}
                                                 >
-                                                    <MenuItem value="">
-                                                        <em>None</em>
-                                                    </MenuItem>
-                                                    <MenuItem value={10}>Ten</MenuItem>
-                                                    <MenuItem value={20}>Twenty</MenuItem>
-                                                    <MenuItem value={30}>Thirty</MenuItem>
+                                                    {[...Array(67).keys()].map((item,i)=>(
+                                                        <MenuItem key={`${item}_${i}`} value={i+14}>{i+14}</MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
 
