@@ -1,6 +1,6 @@
 import { makeStyles, Theme, createStyles } from '@material-ui/core';
 
-const UsersStyles = makeStyles((theme: Theme) =>
+const TopPanelStyles = makeStyles((theme: Theme) =>
     createStyles({
         topPanel: {
             borderBottom: "1px solid #ccc"
@@ -66,4 +66,4 @@ const UsersStyles = makeStyles((theme: Theme) =>
         }
     }));
 
-export default UsersStyles
+export default TopPanelStyles
