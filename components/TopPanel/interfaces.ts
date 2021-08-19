@@ -6,5 +6,6 @@ export interface TopPanelProps{
         location: string,
         ageFrom: string,
         ageTo: string
-    }
+    },
+    title?: string
 }

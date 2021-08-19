@@ -104,7 +104,7 @@ const users = () => {
     return (
         <UsersContainer
             topPanel={
-                <TopPanel changeAge={changeAge} changeCountry={changeCountry} getCountries={getCountries} advancedForm={advancedForm}/>
+                <TopPanel title={"Поиск друзей"} changeAge={changeAge} changeCountry={changeCountry} getCountries={getCountries} advancedForm={advancedForm}/>
             }>
 
             {users && users.map((user: Friend, i: number) => (

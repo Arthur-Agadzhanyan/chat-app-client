@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import withAuth from '../../HOC/withAuth';
-import { Grid, TextareaAutosize, Avatar, CardHeader, Card, Fade } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import { Context } from './../_app';
 import { observer } from 'mobx-react-lite';
 

@@ -5,7 +5,7 @@ import TopPanelStyles from './top-panel.style';
 import { TopPanelProps } from './interfaces';
 import AdvancedSearch from './AdvancedSearch/AdvancedSearch';
 
-const TopPanel: FC<TopPanelProps> = ({ getCountries, changeCountry, changeAge, advancedForm }) => {
+const TopPanel: FC<TopPanelProps> = ({ title,getCountries, changeCountry, changeAge, advancedForm }) => {
     const classes = TopPanelStyles()
     const [advancedSearch, setAdvancedSearch] = useState<boolean>(false)
 
@@ -23,7 +23,7 @@ const TopPanel: FC<TopPanelProps> = ({ getCountries, changeCountry, changeAge, a
 
     return (
         <Box className={classes.topPanel}>
-            <Typography variant="h4" className={classes.pageTitle}>Поиск друзей</Typography>
+            {title && <Typography variant="h4" className={classes.pageTitle}>{title}</Typography>}
             <Box className={classes.searchContainer}>
                 <TextField
                     className={classes.search}

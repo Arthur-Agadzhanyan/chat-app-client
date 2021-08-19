@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { FC, useContext, useEffect } from "react";
 import { Context } from "../pages/_app";
 import Header from "../components/Header/Header";
+import MobileNavigation from "../components/MobileNavigation/MobileNavigation";
 
 const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
@@ -25,6 +26,7 @@ const withAuth = (WrappedComponent: any) => {
       return (<>
         <Header store={store} />
         <WrappedComponent {...props} />
+        <MobileNavigation/>
       </>)
     }
 

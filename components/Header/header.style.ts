@@ -3,7 +3,12 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 const HeaderStyles = makeStyles((theme: Theme) =>
     createStyles({
         appBar:{
-            height: 48
+            height: 48,
+            position: "sticky",
+            top: 0,
+            [theme.breakpoints.down('sm')]: {
+                display: "none"
+            }    
         },
         content: {
             display: "flex",
@@ -51,7 +56,6 @@ const HeaderStyles = makeStyles((theme: Theme) =>
         poppup:{
             border: "1px solid #ccc",
             background: "#fff",
-            padding: "10px 20px",
 
         },
         poppup__title:{
@@ -60,9 +64,11 @@ const HeaderStyles = makeStyles((theme: Theme) =>
         },
         poppup__link:{
             display: "block",
-            marginBottom: 5,
             fontSize: 17,
-            padding: "10px 5px"
+            padding: "12px 25px"
+        },
+        exit:{
+            borderTop: "1px solid #ccc"
         }
     }),
 );

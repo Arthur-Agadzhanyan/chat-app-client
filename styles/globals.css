@@ -35,6 +35,13 @@ a {
   padding-bottom: 0 !important;
 }
 
+
+@media screen and (max-width: 960px) {
+  html,body{
+    padding-bottom: 35px;
+  }
+}
+
 @media screen and (max-width: 600px) {
   *::-webkit-scrollbar {
     width: 3px;
