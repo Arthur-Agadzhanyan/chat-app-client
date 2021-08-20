@@ -15,15 +15,17 @@ const users = () => {
 
     const [fetching, setFetching] = useState<boolean>(true)
     const [totalCount, setTotalCount] = useState<number>(0)
-    
+
     const [advancedForm, setAdvancedForm] = useState({
-        location: "", ageFrom: "14", ageTo: "80"
+        name:"",location: "", ageFrom: "14", ageTo: "80"
     })
+
+    const [countries, setCountries] = useState<string[]>([])
 
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers(currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location)
+            store.getUsers(currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
@@ -43,6 +45,13 @@ const users = () => {
         }
 
     }, [fetching])
+
+    
+    useEffect(() => {
+        getCountries().then((data: any) => {
+            setCountries(data)
+        })
+    }, [])
 
     const scrollHandler = (e: any) => {
         if (window) {
@@ -96,7 +105,6 @@ const users = () => {
         setFetching(true)
     };
 
-
     if (store.isLoading) {
         return <h1>Loading</h1>
     }
@@ -104,7 +112,7 @@ const users = () => {
     return (
         <UsersContainer
             topPanel={
-                <TopPanel title={"Поиск друзей"} changeAge={changeAge} changeCountry={changeCountry} getCountries={getCountries} advancedForm={advancedForm}/>
+                <TopPanel title={"Поиск друзей"} changeAge={changeAge} changeCountry={changeCountry} countries={countries} advancedForm={advancedForm}/>
             }>
 
             {users && users.map((user: Friend, i: number) => (

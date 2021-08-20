@@ -136,9 +136,9 @@ export default class Store {
     }
 
 
-    async getUsers(page: number = 1, limit: number = 10,fromAge: string = "14", toAge:string = "80", location: string | null){
+    async getUsers(page: number = 1, limit: number = 10,fromAge: string = "14", toAge:string = "80", location: string | null, name: string){
         try{
-            const response = await UsersService.getUsers(page,limit,fromAge,toAge,location)
+            const response = await UsersService.getUsers(page,limit,fromAge,toAge,location,name)
             console.log(response.data)
             return response.data
         }catch(e){

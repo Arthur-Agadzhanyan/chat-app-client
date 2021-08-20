@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { AppBar, Toolbar, Typography, Grid, Avatar, Box, Paper, Menu, MenuItem } from '@material-ui/core';
 import Link from "next/link"
 import { HeaderProps } from './interfaces';
+
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
