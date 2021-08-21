@@ -9,7 +9,7 @@ const UsersContainer: FC<UsersContainerProps> = ({children,topPanel}) => {
 
     return (
         <Grid className={classes.content} container>
-            <Grid className={classes.users} item sm={11} md={8} lg={7} xl={8}>
+            <Grid className={classes.users} item xs={12} md={8} lg={9} xl={8}>
                 {topPanel}
                 <div className={classes.usersList}>
                     {children}

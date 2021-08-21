@@ -16,7 +16,7 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
         <Zoom in={true}>
             <Box className={classes.advancedSearchContainer}>
 
-                <Box className={classes.searchLocation}>
+                <Box className={classes.searchBlock}>
                     <Typography className={classes.blockTitle}>Регион</Typography>
                     <Autocomplete
                         id="location"
@@ -36,7 +36,7 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
                         )}
                     />
                 </Box>
-                <Box className={classes.searchAge}>
+                <Box className={classes.searchBlock}>
                     <Typography className={classes.blockTitle}>Возраст</Typography>
                     <Box className={classes.ageInputs}>
                         <FormControl className={classes.ageInput}>

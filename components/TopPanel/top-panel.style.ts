@@ -18,10 +18,10 @@ const TopPanelStyles = makeStyles((theme: Theme) =>
             transition: "all .2s linear"
         },
         search:{
-            flex: "0 1 80%"
+            flex: "0 1 100%",
+            outline: "none"
         },
         advancedSearch:{
-            flex: "0 1 20%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -29,24 +29,25 @@ const TopPanelStyles = makeStyles((theme: Theme) =>
             cursor: "pointer"
         },
         advancedSearchIcon:{
-            marginRight: "10px"
+            marginRight: "5px"
         },
         advancedSearchContainer:{
             width: "100%",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            flexWrap: "wrap",
             paddingTop: 20
         },
-        searchLocation:{
-            flex: "0 1 49%"
+        searchBlock:{
+            flex: "0 1 49%",
+            [theme.breakpoints.down('xs')]:{
+                flex: "0 1 100%",
+                marginTop: 15
+            },
         },
         locationInput:{
             width: "100%"
-        },
-
-        searchAge:{
-            flex: "0 1 49%"
         },
         blockTitle:{
             paddingBottom: 10,

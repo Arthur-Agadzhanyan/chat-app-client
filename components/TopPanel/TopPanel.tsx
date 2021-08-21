@@ -5,7 +5,7 @@ import TopPanelStyles from './top-panel.style';
 import { TopPanelProps } from './interfaces';
 import AdvancedSearch from './AdvancedSearch/AdvancedSearch';
 
-const TopPanel: FC<TopPanelProps> = ({ search, title, countries, changeCountry, changeAge, advancedForm }) => {
+const TopPanel: FC<TopPanelProps> = ({ title, countries, changeCountry, changeAge, advancedForm }) => {
     const classes = TopPanelStyles()
     const [advancedSearch, setAdvancedSearch] = useState<boolean>(false)
 
@@ -27,11 +27,15 @@ const TopPanel: FC<TopPanelProps> = ({ search, title, countries, changeCountry, 
                         variant='outlined'
                         value={advancedForm.name}
                         onChange={changeAge}
+                        InputProps={{
+                            endAdornment: (
+                                <Typography className={classes.advancedSearch} onClick={toggleAdvancedSettings}>
+                                    <TuneIcon className={classes.advancedSearchIcon} />
+                                </Typography>
+                            )
+                        }}
                     />
-
-                <Typography className={classes.advancedSearch} onClick={toggleAdvancedSettings}>
-                    <TuneIcon className={classes.advancedSearchIcon} /> Расширенный поиск
-                </Typography>
+                
 
                 {advancedSearch && <AdvancedSearch countries={countries} changeCountry={changeCountry} changeAge={changeAge} advancedForm={advancedForm} />}
 

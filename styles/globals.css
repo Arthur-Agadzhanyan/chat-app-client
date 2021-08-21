@@ -39,6 +39,7 @@ a {
 @media screen and (max-width: 960px) {
   html,body{
     padding-bottom: 35px;
+    background: #fff;
   }
 }
 
