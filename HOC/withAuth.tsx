@@ -13,7 +13,7 @@ const withAuth = (WrappedComponent: any) => {
       const { store } = useContext(Context)
       const Router = useRouter()
       
-      if (!localStorage.getItem("refreshToken") && !store.isAuth) {
+      if (!store.isLoading && !store.isAuth) {
         Router.replace("/")
         return null
       }

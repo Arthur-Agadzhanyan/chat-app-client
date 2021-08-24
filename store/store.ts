@@ -1,7 +1,7 @@
 import { API_URL } from './../http/index';
 import { makeAutoObservable } from 'mobx';
 import { VerifiedUser, NotVerifiedUser } from './../models/User';
-import axios from 'axios';
+import $api from '../http/index';
 import AuthService from '../services/AuthService';
 import UsersService from '../services/UsersService';
 import { LoginError } from '../models/LoginError';
@@ -53,7 +53,7 @@ export default class Store {
             const response = await AuthService.login(email, password)
 
             localStorage.setItem('token',response.data.accessToken)
-            localStorage.setItem('refreshToken',response.data.refreshToken)
+            console.log(response)
 
             this.setUser(response.data)
             this.setLoginError({} as LoginError)
@@ -110,22 +110,12 @@ export default class Store {
     async checkAuth() {
         this.setLoading(true)
         try {
-            const refreshToken = localStorage.getItem('refreshToken')
-
-            // console.log(refreshToken)
-
-            const response = await axios.patch(`${API_URL}/auth/refresh`,{}, {
-                headers:{ 
-                    "Authorization": `Bearer ${refreshToken}`
-                }
-            })
+            const response = await $api.patch(`${API_URL}/auth/refresh`,{})
             const data = response.data
 
-            // console.log(data)
+            console.log(data)
 
             localStorage.setItem('token', data.accessToken)
-            localStorage.setItem('refreshToken', data.refreshToken)
-            // console.log("yes")
             this.setUser(response.data)
             this.setAuth(true)
         } catch (e: any) {

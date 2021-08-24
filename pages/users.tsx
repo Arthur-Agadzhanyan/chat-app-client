@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
-import withAuth from '../../HOC/withAuth';
-import { Context } from '../_app';
-import { Friend } from '../../models/Friend';
-import UsersContainer from '../../components/UsersContainer/UsersContainer';
-import UserCard from '../../components/UserCard/UserCard';
-import TopPanel from '../../components/TopPanel/TopPanel';
+import withAuth from '../HOC/withAuth';
+import { Context } from './_app';
+import { Friend } from '../models/Friend';
+import UsersContainer from '../components/UsersContainer/UsersContainer';
+import UserCard from '../components/UserCard/UserCard';
+import TopPanel from '../components/TopPanel/TopPanel';
 
 const users = () => {
     const { store } = useContext(Context)

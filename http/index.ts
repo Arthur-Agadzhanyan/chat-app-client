@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 export const API_URL: string = 'http://localhost:8000/api/v1'
 
 const $api = axios.create({
-    withCredentials: false, // для отправки куки
+    withCredentials: true, // для отправки куки
     baseURL: API_URL
 })
 
@@ -15,21 +15,21 @@ if(typeof window !== "undefined"){
     })
 }
 
-// $api.interceptors.response.use((successRes: AxiosResponse)=>{ // срабатывает каждый раз когда мы получаем ответ
-//     return successRes
-// }, async (error)=>{ // если статус 401 (например access токен истек)
-//     const originalRequest = error.config
-//     if (error.response.status == 401 && error.config && originalRequest._isRetry !== true) {
-//         originalRequest._isRetry = true
-//         try {
-//             const response = await axios.get<LoginResponse>(`${API_URL}/refresh`, { withCredentials: false })
-//             localStorage.setItem('token', response.data.accessToken)
-//             return $api.request(originalRequest)// продолжаем запрос как это было в схеме) 
-//         } catch (e) {
-//             console.log('НЕ АВТОРИЗОВАН');
-//         }
-//     }
-//     throw error;
-// }) // в метод .use мы можем передать 2 функции: первая сработает при успешном ответе, вторая при ошибке 
+$api.interceptors.response.use((successRes: AxiosResponse)=>{ // срабатывает каждый раз когда мы получаем ответ
+    return successRes
+}, async (error)=>{ // если статус 401 (например access токен истек)
+    const originalRequest = error.config
+    if (error.response.status == 401 && error.config && originalRequest._isRetry !== true) {
+        originalRequest._isRetry = true
+        try {
+            const response = await axios.patch<LoginResponse>(`${API_URL}/refresh`, { withCredentials: true })
+            localStorage.setItem('token', response.data.accessToken)
+            return $api.request(originalRequest)// продолжаем запрос как это было в схеме) 
+        } catch (e) {
+            console.log('НЕ АВТОРИЗОВАН');
+        }
+    }
+    throw error;
+}) // в метод .use мы можем передать 2 функции: первая сработает при успешном ответе, вторая при ошибке 
 
 export default $api
