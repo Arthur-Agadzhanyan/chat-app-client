@@ -7,13 +7,11 @@ import MobileNavigation from "../components/MobileNavigation/MobileNavigation";
 const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
 
-    const { store } = useContext(Context)
-
     if (typeof window !== "undefined") {
       const { store } = useContext(Context)
       const Router = useRouter()
       
-      if (!store.isLoading && !store.isAuth) {
+      if (!localStorage.getItem("token") && !store.isLoading &&!store.isAuth) {
         Router.replace("/")
         return null
       }

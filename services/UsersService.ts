@@ -3,6 +3,7 @@ import $api from "../http";
 
 export default class UsersService {
     static async getUsers(page: number, limit: number,fromAge:string,toAge:string,location: string | null, name: string): Promise<AxiosResponse> {
+
         console.log(`/users?limit=${limit}&page=${page}&fromAge=${fromAge}&toAge=${toAge}${location ? `&location=${location}` : ""}&name=anton`)
 
         const usersLocation = location ? `&location=${location}` : ""

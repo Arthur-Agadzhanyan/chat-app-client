@@ -18,6 +18,6 @@ export default class AuthService {
     }
 
     static async sendVerificationCode(hash: string):Promise<AxiosResponse<VerifyResponse>>{
-        return $api.patch<VerifyResponse>(`/auth/verify`,{hash})
+        return $api.put<VerifyResponse>(`/auth/verify`,{hash})
     }
 }
