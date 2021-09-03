@@ -3,11 +3,17 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core';
 const TopPanelStyles = makeStyles((theme: Theme) =>
     createStyles({
         topPanel: {
-            borderBottom: "1px solid #ccc"
+            borderBottom: "1px solid #ccc",
+            position: 'relative'
+        },
+        top:{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderBottom: "1px solid #ccc",
+            padding: "25px",
         },
         pageTitle: {
-            padding: "25px",
-            borderBottom: "1px solid #ccc"
         },
         searchContainer:{
             padding: 20,

@@ -91,11 +91,10 @@ export default class Store {
         try{
             const response = await AuthService.sendVerificationCode(hash)
             const data = response.data
-
+            console.log(data)
             setSuccess("success")
 
             localStorage.setItem('token', data.accessToken)
-            localStorage.setItem('refreshToken', data.refreshToken)
 
             this.setUser(response.data)
             this.setAuth(true)
@@ -136,9 +135,9 @@ export default class Store {
     }
 
     // для отображения пользователей
-    async getUsers(page: number = 1, limit: number = 10,fromAge: string = "14", toAge:string = "80", location: string | null, name: string){
+    async getUsers(url: string = "users",page: number = 1, limit: number = 10,fromAge: string = "14", toAge:string = "80", location: string | null, name: string){
         try{
-            const response = await UsersService.getUsers(page,limit,fromAge,toAge,location,name)
+            const response = await UsersService.getUsers(url,page,limit,fromAge,toAge,location,name)
             console.log(response.data)
 
             return response.data

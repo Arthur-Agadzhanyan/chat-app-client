@@ -5,8 +5,6 @@ import { createContext, useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import theme from '../theme'
 import { ThemeProvider } from '@material-ui/core'
-import Header from '../components/Header/Header'
-import moment from "moment"
 import 'moment/locale/ru'
 
 interface State {

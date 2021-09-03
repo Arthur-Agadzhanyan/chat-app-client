@@ -8,5 +8,5 @@ export interface TopPanelProps{
         ageFrom: string,
         ageTo: string
     },
-    title?: string
+    title?: string,
 }

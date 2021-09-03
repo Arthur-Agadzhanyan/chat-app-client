@@ -12,6 +12,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import SearchIcon from '@material-ui/icons/Search';
 
 import Link from "next/link"
 import { useRouter } from 'next/router';
@@ -30,13 +31,16 @@ const MobileNavigation = () => {
         if(Router.pathname === "/friends"){
             setValue(0)
         }
-        if(Router.pathname === "/chats"){
+        if(Router.pathname === "/users"){
             setValue(1)
         }
-        if(Router.pathname === "/profile"){
+        if(Router.pathname === "/chats"){
             setValue(2)
         }
-    },[Router])
+        if(Router.pathname === "/profile"){
+            setValue(3)
+        }
+    },[Router.pathname])
 
     return (
         <BottomNavigation
@@ -52,6 +56,11 @@ const MobileNavigation = () => {
             <BottomNavigationAction
                 label="Друзья" 
                 icon={<PeopleOutlineIcon />} 
+                onClick={() => onLink("/friends")}
+            />
+            <BottomNavigationAction
+                label="Поиск" 
+                icon={<SearchIcon />} 
                 onClick={() => onLink("/users")}
             />
             <BottomNavigationAction  

@@ -25,7 +25,7 @@ const users = () => {
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers(currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
+            store.getUsers("users",currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
@@ -104,10 +104,6 @@ const users = () => {
         setUsers([])
         setFetching(true)
     };
-
-    if (store.isLoading) {
-        return <h1>Loading</h1>
-    }
 
     return (
         <UsersContainer

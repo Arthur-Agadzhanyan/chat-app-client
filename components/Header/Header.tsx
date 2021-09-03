@@ -8,6 +8,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import HeaderStyles from './header.style';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import SearchIcon from '@material-ui/icons/Search';
 
 // import EmailIcon from '@material-ui/icons/Email';
 // import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
@@ -46,12 +47,16 @@ const Header: FC<HeaderProps> = ({ store }) => {
 
                             {store.user.verified && (
                                 <>
+                                    <Link href="/users">
+                                        <Box className={classes.avatar}>
+                                            <SearchIcon />
+                                        </Box>
+                                    </Link>
                                     
                                     <Box className={classes.avatar}>
                                         <NotificationsNoneIcon />
                                     </Box>
                                     
-
                                     <Link href="/chats">
                                         <Box className={classes.avatar}>
                                             <MailOutlineIcon />
@@ -63,6 +68,7 @@ const Header: FC<HeaderProps> = ({ store }) => {
                                             <PeopleOutlineIcon />
                                         </Box>
                                     </Link>
+
                                     <Box className={classes.avatar} onClick={handleClick}>
                                         <Typography variant="h6" className={classes.avatar__text}>
                                             {store.user.firstName}

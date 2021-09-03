@@ -7,6 +7,7 @@ import UsersContainer from '../components/UsersContainer/UsersContainer';
 import UserCard from '../components/UserCard/UserCard';
 import TopPanel from '../components/TopPanel/TopPanel';
 
+
 const friends = () => {
     const { store } = useContext(Context)
 
@@ -25,7 +26,7 @@ const friends = () => {
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers(currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
+            store.getUsers("friends",currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
@@ -105,18 +106,16 @@ const friends = () => {
         setFetching(true)
     };
 
-    if (store.isLoading) {
-        return <h1>Loading</h1>
-    }
-
     return (
         <UsersContainer
             topPanel={
-                <TopPanel title={"Поиск друзей"} changeAge={changeAge} changeCountry={changeCountry} countries={countries} advancedForm={advancedForm}/>
+                <>
+                    <TopPanel title={"Друзья"} changeAge={changeAge} changeCountry={changeCountry} countries={countries} advancedForm={advancedForm}/>
+                </>
             }>
 
             {users && users.map((user: Friend, i: number) => (
-                <UserCard store={store} key={`${user}_${i}`} user={user} />
+                <UserCard store={store} key={`${user}_${i}`} user={user} friend/>
             ))}
         </UsersContainer>
     );

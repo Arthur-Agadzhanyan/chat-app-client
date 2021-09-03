@@ -15,7 +15,11 @@ const TopPanel: FC<TopPanelProps> = ({ title, countries, changeCountry, changeAg
 
     return (
         <Box className={classes.topPanel}>
-            {title && <Typography variant="h4" className={classes.pageTitle}>{title}</Typography>}
+            
+            <Box className={classes.top}>
+                {title && <Typography variant="h4" className={classes.pageTitle}>{title}</Typography>}
+            </Box>
+            
             <Box className={classes.searchContainer}>
                     <TextField
                         className={classes.search}
