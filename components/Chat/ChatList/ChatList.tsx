@@ -1,53 +1,20 @@
 import { Grid, TextField, makeStyles, Theme, createStyles } from '@material-ui/core';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import ChatLink from '../../ChatLink/ChatLink';
+import { ChatListStyles } from './chat-list.style';
 import { ChatListProps } from './interfaces';
 
 const ChatList: FC<ChatListProps> = ({ store, xs, sm, md,lg, mbVisible }) => {
+    const classes = ChatListStyles(mbVisible)()
+    const [chats, setChats] = useState([]);
 
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            chats: {
-                // display: "none",
-                background: "#fff",
-                height: "98%",
-                paddingTop: 15,
-                border: "1px solid #ccc",
-                [theme.breakpoints.down('xs')]: {
-                    display: mbVisible ? "block" : "none",
-                    [theme.breakpoints.down('sm')]: {
-                        height: "100%",
-                        width: "100%",
-                    }
-                }
-            },
-            chatSearch: {
-                width: "90%",
-                height: "10%",
-                margin: "0 auto",
-                
-                [theme.breakpoints.down('xs')]: {
-                    display: mbVisible ? "block" : "none"
-                }
-            },
-            chatSearchInput:{
-                width: "100%"
-            },
-            chatList: {
-                height: "90%",
-                overflowY: "auto",
-                overflowX: "hidden"
-            },
-        }),
-    );
-    const classes = useStyles()
+    useEffect(()=>{
+        const res = store.getChatList()
+        console.log(res)
+    },[])
 
     const searchUsers = () => {
         alert("Search")
-    }
-
-    const logout = () => {
-        console.log(store.logout())
     }
 
     return (
@@ -80,9 +47,6 @@ const ChatList: FC<ChatListProps> = ({ store, xs, sm, md,lg, mbVisible }) => {
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
                 <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <div>
-                    <button onClick={logout}>Выход</button>
-                </div>
             </div>
 
 

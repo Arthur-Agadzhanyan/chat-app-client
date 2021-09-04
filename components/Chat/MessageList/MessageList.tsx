@@ -5,16 +5,21 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { Avatar, Card, CardHeader, Grid, TextareaAutosize } from '@material-ui/core';
 import MessageListStyles from './messagelist.style';
 import { MessageListProps } from './interfaces';
+import { useRouter } from 'next/router';
 
 const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
+    const router = useRouter()
     const chatBottomDiv = React.createRef<HTMLDivElement>();
     const classes = MessageListStyles()
+    const { id } = router.query
 
     useEffect(() => {
         if (chatBottomDiv.current) {
             chatBottomDiv.current.scrollIntoView({ behavior: "smooth" });
         }
+        store.getChat(id as string)
     }, [])
+
     return (
         <Grid item xs={xs} sm={sm} md={md} lg={lg} className={classes.messages}>
                 <div className={classes.chatHeader}>

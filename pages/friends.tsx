@@ -26,7 +26,7 @@ const friends = () => {
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers("friends",currentPage, 4,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
+            store.getUsers("friends",currentPage, 10,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)

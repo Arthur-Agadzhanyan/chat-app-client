@@ -5,6 +5,7 @@ import $api from '../http/index';
 import AuthService from '../services/AuthService';
 import UsersService from '../services/UsersService';
 import { LoginError } from '../models/LoginError';
+import MessangerService from '../services/MessangerService';
 
 export default class Store {
     user = {} as VerifiedUser | NotVerifiedUser
@@ -154,6 +155,28 @@ export default class Store {
             console.log(response.data)
         } catch (e: any) {
             console.log(e.response?.data)
+        }
+    }
+
+    async getChatList(){
+        try {
+            const response = await MessangerService.getChatList()
+            console.log(response.data)
+
+            return response.data
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    async getChat(id: string){
+        try {
+            const response = await MessangerService.getChat(id)
+            console.log(response.data)
+
+            return response.data
+        } catch (e) {
+            console.log(e)
         }
     }
 }

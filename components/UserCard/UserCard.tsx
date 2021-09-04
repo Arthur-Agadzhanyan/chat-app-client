@@ -4,6 +4,7 @@ import { UserCardProps } from './interfaces';
 import UserCardStyles from './user-card.style';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import moment from 'moment'
+import Link from "next/link"
 
 const UserCard: FC<UserCardProps> = ({user, store, friend = false}) => {
     const classes = UserCardStyles()
@@ -33,7 +34,7 @@ const UserCard: FC<UserCardProps> = ({user, store, friend = false}) => {
 
             <CardActions className={classes.actions}>
                 <Button className={classes.sendMessageBtn} size="medium" color="primary">
-                    Отправить сообщение
+                    <Link href={`/chats/${user._id}`}><a>Отправить сообщение</a></Link>
                 </Button>
                 {!friend && (
                     <Button className={classes.addFriendBtn} size="medium" color="primary" onClick={()=>sendFriendRequest(user._id)}>
