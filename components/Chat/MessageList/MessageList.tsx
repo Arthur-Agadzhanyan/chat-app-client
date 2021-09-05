@@ -18,7 +18,7 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
             chatBottomDiv.current.scrollIntoView({ behavior: "smooth" });
         }
         store.getChat(id as string)
-    }, [])
+    }, [id])
 
     return (
         <Grid item xs={xs} sm={sm} md={md} lg={lg} className={classes.messages}>

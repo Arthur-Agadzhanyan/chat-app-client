@@ -179,4 +179,17 @@ export default class Store {
             console.log(e)
         }
     }
+
+    async sendPrivateMessage(message: string, receivers: string[]){
+        try {
+            const response = await MessangerService.sendPrivateMessage(message,receivers)
+            console.log(response.data)
+
+            return response.data
+        } catch (e) {
+           console.log(e);
+            
+        }
+    }
+
 }

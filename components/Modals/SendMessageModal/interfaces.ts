@@ -1,7 +1,8 @@
+import { Friend } from './../../../models/Friend';
 import { ReactNode } from 'react';
 export interface SendMsgModalProps{
+    
     open: boolean, 
-    children: ReactNode
-    handleOpen():void, 
+    user: Friend,
     handleClose():void, 
 }
