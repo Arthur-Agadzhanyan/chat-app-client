@@ -16,4 +16,12 @@ export default class MessangerService {
             message
         })
     }
+
+    static async sendMessageOnChat(message: string, chatId: string, type: "100" | "200"): Promise<AxiosResponse>{
+        console.log(message)
+        return $api.post(`/messenger/chat/message?type=${type}`,{
+            chatId,
+            message
+        })
+    }
 }

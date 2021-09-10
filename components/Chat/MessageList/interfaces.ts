@@ -9,3 +9,15 @@ export interface MessageListProps{
     lg?: boolean | GridSize | undefined,
     xl?: boolean | GridSize | undefined
 }
+
+export interface ChatMessage{
+    author: {
+        firstName: string,
+        lastName: string,
+        _id: string
+    },
+    createdAt: number,
+    text: string,
+    visible: string,
+    _id: string
+}

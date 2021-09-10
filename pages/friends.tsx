@@ -6,10 +6,14 @@ import { Friend } from '../models/Friend';
 import UsersContainer from '../components/UsersContainer/UsersContainer';
 import UserCard from '../components/UserCard/UserCard';
 import TopPanel from '../components/TopPanel/TopPanel';
+import { Typography } from '@material-ui/core';
+import FriendsStyles from '../styles/friends.style';
 
 
 const friends = () => {
     const { store } = useContext(Context)
+
+    const classes = FriendsStyles()
 
     const [users, setUsers] = useState<Friend[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1)
@@ -117,6 +121,11 @@ const friends = () => {
             {users && users.map((user: Friend, i: number) => (
                 <UserCard store={store} key={`${user}_${i}`} user={user} friend/>
             ))}
+
+            {!fetching && !users.length && (
+                <Typography variant="body1" className={classes.no_friends}>У вас пока нет друзей, но это исправимо ;&gt;</Typography>
+            )}
+
         </UsersContainer>
     );
 }

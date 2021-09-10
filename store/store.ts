@@ -192,4 +192,15 @@ export default class Store {
         }
     }
 
+    async sendMessageOnChat(message: string, chatId: string, type: "100" | "200"){
+        try {
+            const response = await MessangerService.sendMessageOnChat(message,chatId,type)
+            console.log(response.data)
+
+            return response.data
+        } catch (e: any) {
+           console.log(e);
+            
+        }
+    }
 }

@@ -82,6 +82,7 @@ const MessageListStyles = makeStyles((theme: Theme) =>
             marginLeft: "auto",
             marginRight: 20,
             textAlign: "center",
+            cursor: "pointer",
             [theme.breakpoints.down('xs')]: {
                 marginRight: 3,
                 marginLeft: 3

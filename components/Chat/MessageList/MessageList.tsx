@@ -1,10 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import React, { ChangeEvent, FC, useEffect,useState } from 'react';
 import MyMessage from '../MyMessage/MyMessage';
 import Message from '../Message/Message';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import { Avatar, Card, CardHeader, Grid, TextareaAutosize } from '@material-ui/core';
 import MessageListStyles from './messagelist.style';
-import { MessageListProps } from './interfaces';
+import { ChatMessage, MessageListProps } from './interfaces';
 import { useRouter } from 'next/router';
 
 const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
@@ -13,12 +13,30 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
     const classes = MessageListStyles()
     const { id } = router.query
 
+    const [messages, setMessages] = useState([]);
+    const [messageInput, setMessageInput] = useState("");
+
+
     useEffect(() => {
         if (chatBottomDiv.current) {
             chatBottomDiv.current.scrollIntoView({ behavior: "smooth" });
         }
-        store.getChat(id as string)
+        if(id){
+            store.getChat(id as string).then((data)=>{
+                setMessages(data.messages)
+            })
+        }
     }, [id])
+
+    const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>)=>{
+        setMessageInput(e.target.value)
+    }
+
+    const sendMessage = ()=>{
+        if(messageInput.trim()){
+            store.sendMessageOnChat(messageInput,id as string, "100")
+        }
+    }
 
     return (
         <Grid item xs={xs} sm={sm} md={md} lg={lg} className={classes.messages}>
@@ -36,20 +54,13 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
                 </div>
                 <div className={classes.messageContainer}>
                     <div className={classes.messageList}>
-                        <MyMessage>, mollitia corrupti reprehenderit obcaecati quo dolorem, perferendis quas, enim consequuntur!</MyMessage>
-                        <Message>Abobe</Message>
-                        <Message>Abobe</Message>
-                        <MyMessage>Abobe</MyMessage>
-                        <MyMessage>Abobe</MyMessage>
-                        <Message>Abobe</Message>
-                        <MyMessage>Abobe</MyMessage>
-                        <Message>Abobe</Message>
-                        <Message>Abobe</Message>
-                        <MyMessage>AbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobe</MyMessage>
-                        <MyMessage>Abobe</MyMessage>
-                        <Message>AbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobeAbobe</Message>
-                        <Message>Abobe</Message>
-                        <Message>Abobe</Message>
+                        {messages.map((msg: ChatMessage)=>{
+                            // TODO: Сделать модель для сообщения
+                            if(store.user._id === msg.author._id){
+                                return <MyMessage>{msg.text}</MyMessage>
+                            }
+                            return <Message>{msg.text}</Message>
+                        })}
                         <div ref={chatBottomDiv} className="odd"></div>
                     </div>
                 </div>
@@ -64,10 +75,10 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
                                 aria-label="maximum height"
                                 placeholder="Напишите сообщение"
                                 className={classes.messageInput}
-
+                                onChange={handleInputChange}
                             />
                         </div>
-                        <div className={classes.sendMessage}>Отправить</div>
+                        <div className={classes.sendMessage} onClick={sendMessage}>Отправить</div>
                     </div>
                 </div>
             </Grid>
