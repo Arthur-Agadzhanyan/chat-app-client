@@ -10,6 +10,7 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
         stringify: (option: string) => option,
+        limit: 100
     });
 
     return (
@@ -21,10 +22,11 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
                     <Autocomplete
                         id="location"
                         className={classes.locationInput}
-                        options={countries}
+                        options={ countries}
                         getOptionLabel={(country) => country}
                         onChange={changeCountry}
                         filterOptions={filterOptions}
+                        value={advancedForm.location}
                         renderInput={(params) => (
                             <TextField
                                 {...params}

@@ -123,6 +123,7 @@ const SignUp = () => {
     const filterOptions = createFilterOptions({
         matchFrom: 'start',
         stringify: (option: string) => option,
+        limit: 100
     });
 
     if(errors.verifyError){
@@ -193,6 +194,7 @@ const SignUp = () => {
                     getOptionLabel={(country) => country}
                     onChange={changeCountry}
                     filterOptions={filterOptions}
+                    value={form.location}
                     renderInput={(params) => (
                         <TextField
                             {...params}

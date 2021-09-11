@@ -11,8 +11,15 @@ const withAuth = (WrappedComponent: any) => {
     if (typeof window !== "undefined") {
       const { store } = useContext(Context)
       const Router = useRouter()
-      
-      if (!localStorage.getItem("token") && !store.isLoading &&!store.isAuth) {
+      const socket = useRef<WebSocket>()
+
+      useEffect(()=>{
+        if(store.isAuth){
+          connect()
+        }
+      },[store.isAuth]) 
+
+      if (!localStorage.getItem("token") && !store.isLoading && !store.isAuth) {
         Router.replace("/")
         return null
       }
@@ -22,40 +29,40 @@ const withAuth = (WrappedComponent: any) => {
         return null
       }
 
-      const socket = useRef<WebSocket>()
+      const connect = ()=>{
 
-      useEffect(()=>{
-        socket.current = new WebSocket(`${API_URL_WS}/chats`)
+          socket.current = new WebSocket(`${API_URL_WS}/chats`)
 
-        // Отработает в момент подключения
-        socket.current.onopen = ()=>{
-          console.log("ебичь эта херь работает")
-        }
-
-        // Отработает когда мы получаем какое-либо сообщение
-        socket.current.onmessage= (event)=>{
-          const data = event.data
-          if(data[0] === "{"){
-            console.log(JSON.parse(data))
+          // Отработает в момент подключения
+          socket.current.onopen = ()=>{
+            console.log("ебичь эта херь работает")
           }
-        }
 
-        // Отработает когда подключение будет закрыто
-        socket.current.onclose= ()=>{
-          console.log("Socket закрыт");
-          
-        }
+          // Отработает когда мы получаем какое-либо сообщение
+          socket.current.onmessage= (event)=>{
+            const data = event.data
+            if(data[0] === "{"){
+              console.log(JSON.parse(data))
+            }
+          }
 
-        // Отработает когда произошла какая-либо ошибка
-        socket.current.onerror= ()=>{
-          try {
+          // Отработает когда подключение будет закрыто
+          socket.current.onclose= ()=>{
+            console.log("Socket закрыт");
             
-          } catch (error) {
-            console.log(error)
           }
-        }
 
-      },[])
+          // Отработает когда произошла какая-либо ошибка
+          socket.current.onerror= ()=>{
+            try {
+              
+            } catch (error) {
+              console.log(error)
+            }
+          }
+      }
+
+      
 
       return (<>
         <Header store={store} />
