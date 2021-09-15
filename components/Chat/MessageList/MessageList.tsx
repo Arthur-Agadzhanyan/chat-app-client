@@ -6,6 +6,7 @@ import { Avatar, Card, CardHeader, Grid, TextareaAutosize } from '@material-ui/c
 import MessageListStyles from './messagelist.style';
 import { ChatMessage, MessageListProps } from './interfaces';
 import { useRouter } from 'next/router';
+import { observer } from 'mobx-react-lite';
 
 const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
     const router = useRouter()
@@ -22,9 +23,7 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
             chatBottomDiv.current.scrollIntoView({ behavior: "smooth" });
         }
         if(id){
-            store.getChat(id as string).then((data)=>{
-                setMessages(data.messages)
-            })
+            store.getChat(id as string)
         }
     }, [id])
 
@@ -54,12 +53,12 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
                 </div>
                 <div className={classes.messageContainer}>
                     <div className={classes.messageList}>
-                        {messages.map((msg: ChatMessage)=>{
+                        {store.messages && store.messages.map((msg: ChatMessage,i:number)=>{
                             // TODO: Сделать модель для сообщения
                             if(store.user._id === msg.author._id){
-                                return <MyMessage>{msg.text}</MyMessage>
+                                return <MyMessage key={`${msg}_${i}`} msg={msg}/>
                             }
-                            return <Message>{msg.text}</Message>
+                            return <Message key={`${msg}_${i}`} msg={msg}/>
                         })}
                         <div ref={chatBottomDiv} className="odd"></div>
                     </div>
@@ -85,4 +84,4 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
     );
 }
 
-export default MessageList;
+export default observer(MessageList);

@@ -30,6 +30,8 @@ const users = () => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
                     setTotalCount(response.total)
+                }).catch((e)=>{
+                    setUsers([])
                 })
                 .finally(() => {
                     setFetching(false)
@@ -114,6 +116,9 @@ const users = () => {
             {users && users.map((user: Friend, i: number) => (
                 <UserCard store={store} key={`${user}_${i}`} user={user} />
             ))}
+            {!users.length && !fetching &&(
+                <h1>Пользователи не найдены</h1>
+            )}
         </UsersContainer>
     );
 }

@@ -5,14 +5,12 @@ const MessageListStyles = makeStyles((theme: Theme) =>
         messages: {
             position: "relative",
             background: "#fff",
-            height: "98%",
-            border: "1px solid #ccc",
+            height: "100%",
             borderLeft: "none",
             display: "flex",
             flexDirection: "column",
 
             [theme.breakpoints.down('sm')]: {
-                borderLeft: "1px solid #ccc",
                 width: "100%",
             }
         },

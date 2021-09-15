@@ -6,12 +6,13 @@ export const ChatListStyles = (mbVisible: boolean) => {
             chats: {
                 // display: "none",
                 background: "#fff",
-                height: "98%",
+                height: "100%",
                 paddingTop: 15,
-                border: "1px solid #ccc",
-                [theme.breakpoints.down('xs')]: {
+                borderRight: "1px solid #ccc",
+                [theme.breakpoints.down('sm')]: {
                     display: mbVisible ? "block" : "none",
                     [theme.breakpoints.down('sm')]: {
+                        borderRight: "none",
                         height: "100%",
                         width: "100%",
                     }
@@ -22,7 +23,7 @@ export const ChatListStyles = (mbVisible: boolean) => {
                 height: "10%",
                 margin: "0 auto",
 
-                [theme.breakpoints.down('xs')]: {
+                [theme.breakpoints.down('sm')]: {
                     display: mbVisible ? "block" : "none"
                 }
             },

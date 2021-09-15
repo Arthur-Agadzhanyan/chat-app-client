@@ -11,10 +11,13 @@ const UsersContainerStyles = makeStyles((theme: Theme) =>
             background: "#fff",
             minHeight: "90vh",
 
-            [theme.breakpoints.up('md')]:{
+            [theme.breakpoints.up('md')]:{      
                 marginTop: 10,            
                 borderRadius: 5,
                 boxShadow: "0px 0px 10px #ccc",
+            },
+            [theme.breakpoints.down('md')]:{
+                paddingBottom: 48
             }
         },
         topPanel: {

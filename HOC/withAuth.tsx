@@ -14,7 +14,7 @@ const withAuth = (WrappedComponent: any) => {
       const socket = useRef<WebSocket>()
 
       useEffect(()=>{
-        if(store.isAuth){
+        if(store.isAuth && store.user && store.user.verified){
           connect()
         }
       },[store.isAuth]) 
@@ -41,9 +41,12 @@ const withAuth = (WrappedComponent: any) => {
           // Отработает когда мы получаем какое-либо сообщение
           socket.current.onmessage= (event)=>{
             const data = event.data
-            if(data[0] === "{"){
-              console.log(JSON.parse(data))
-            }
+            // if(data[0] === "{"){
+            //   console.log("aaa");
+              
+            //   store.setMessages([...store.messages, ...(JSON.parse(data).messages)])
+            // }
+            console.log(data)
           }
 
           // Отработает когда подключение будет закрыто

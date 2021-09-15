@@ -7,6 +7,7 @@ const ChatsStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             height: "calc(100vh - 48px)",
             [theme.breakpoints.down('sm')]: {
+                height: "calc(100vh - 48px)",
                 paddingTop: 0,
             }
         },
@@ -20,15 +21,14 @@ const ChatsStyles = makeStyles((theme: Theme) =>
         messages: {
             position: "relative",
             background: "#fff",
-            height: "98%",
-            border: "1px solid #ccc",
+            height: "100%",
             borderLeft: "none",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
             
-            [theme.breakpoints.down('xs')]: {
+            [theme.breakpoints.down('sm')]: {
                 display: "none",
                 borderLeft: "1px solid #ccc",
                 width: "100%",

@@ -13,6 +13,9 @@ export default class Store {
     isLoading = false
     loginErrors = {} as LoginError
 
+    //TEST
+    messages: any = []
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -30,6 +33,11 @@ export default class Store {
     }
     setLoginError(error: LoginError){
        this.loginErrors = error
+    }
+
+    //TEST
+    setMessages(msgs: any){
+        this.messages = msgs
     }
 
     // Для регистрации аккаунта
@@ -118,7 +126,7 @@ export default class Store {
     async checkAuth() {
         this.setLoading(true)
         try {
-            const response = await $api.patch(`${API_URL}/auth/refresh`,{})
+            const response = await $api.post(`${API_URL}/auth/refresh`,{})
             const getUserData = await $api.post(`${API_URL}/auth/check`,{})
             const data = response.data
 
@@ -161,7 +169,7 @@ export default class Store {
     async getChatList(){
         try {
             const response = await MessangerService.getChatList()
-            console.log(response.data)
+            console.log(response)
 
             return response.data
         } catch (e) {
@@ -172,9 +180,9 @@ export default class Store {
     async getChat(id: string){
         try {
             const response = await MessangerService.getChat(id)
-            console.log(response.data)
+            console.log("getChat",response.data)
 
-            return response.data
+            this.setMessages(response.data.messages)
         } catch (e) {
             console.log(e)
         }
@@ -183,7 +191,7 @@ export default class Store {
     async sendPrivateMessage(message: string, receivers: string[]){
         try {
             const response = await MessangerService.sendPrivateMessage(message,receivers)
-            console.log(response.data)
+            // console.log(response.data)
 
             return response.data
         } catch (e) {
@@ -195,9 +203,9 @@ export default class Store {
     async sendMessageOnChat(message: string, chatId: string, type: "100" | "200"){
         try {
             const response = await MessangerService.sendMessageOnChat(message,chatId,type)
-            console.log(response.data)
+            // console.log(response.data)
 
-            return response.data
+            this.setMessages([...this.messages, ...response.data.messages])
         } catch (e: any) {
            console.log(e);
             

@@ -23,7 +23,7 @@ $api.interceptors.response.use((successRes: AxiosResponse)=>{ // срабаты�
     if (error.response.status == 401 && error.config && originalRequest._isRetry !== true) {
         originalRequest._isRetry = true
         try {
-            const response = await axios.patch<LoginResponse>(`${API_URL}/auth/refresh`, { withCredentials: true })
+            const response = await axios.post<LoginResponse>(`${API_URL}/auth/refresh`, { withCredentials: true })
             localStorage.setItem('token', response.data.accessToken)
             return $api.request(originalRequest)// продолжаем запрос как это было в схеме) 
         } catch (e) {

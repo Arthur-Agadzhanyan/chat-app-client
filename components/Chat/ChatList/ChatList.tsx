@@ -9,8 +9,9 @@ const ChatList: FC<ChatListProps> = ({ store, xs, sm, md,lg, mbVisible }) => {
     const [chats, setChats] = useState([]);
 
     useEffect(()=>{
-        const res = store.getChatList()
-        console.log(res)
+        const res = store.getChatList().then(data=>{
+            setChats(data)
+        })
     },[])
 
     const searchUsers = () => {
@@ -30,23 +31,12 @@ const ChatList: FC<ChatListProps> = ({ store, xs, sm, md,lg, mbVisible }) => {
             </form>
 
             <div className={classes.chatList}>
-                <ChatLink username={"Tim Berners Lee"} chatLink={"2131231243214"} />
-                <ChatLink username={"Gucci Boss"} chatLink={"2131231243214"} />
-                <ChatLink username={"Bill Gates"} chatLink={"2131231243214"} />
-                <ChatLink username={"Mark Zuckerberg"} chatLink={"2131231243214"} />
-                <ChatLink username={"Jeff Bezos"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Ronald Wayne"} chatLink={"2131231243214"} />
-                <ChatLink username={"Lorem ipsum dolor sit amet consectetur adi"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"21312312414"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
-                <ChatLink username={"Elon Musk"} chatLink={"2131231243214"} />
+                {
+                    chats && chats.map((chat,i)=>{
+                        // <ChatLink username={"Tim Berners Lee"} chatLink={"2131231243214"} />
+                        <h1 key={`${chat}_${i}`}>{JSON.stringify(chat)}</h1>
+                    })
+                }
             </div>
 
 
