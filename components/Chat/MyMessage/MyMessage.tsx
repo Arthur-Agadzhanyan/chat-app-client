@@ -31,7 +31,7 @@ const Message: FC<Props> = ({msg}) => {
     return (
         <>
             <Paper elevation={0} className={classes.message}>
-                <div className={classes.author}>{msg.author.firstName}</div>
+                {/* <div className={classes.author}>{msg.author.firstName}</div> */}
                 <div className={classes.text}>{msg.text}</div>
                 <div className={classes.time}>{moment(msg.createdAt).format("h:mm ll")}</div>
             </Paper>

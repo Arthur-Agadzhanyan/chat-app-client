@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useEffect,useState } from 'react';
 import MyMessage from '../MyMessage/MyMessage';
 import Message from '../Message/Message';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { Avatar, Card, CardHeader, Grid, TextareaAutosize } from '@material-ui/core';
+import { Avatar, Button, Card, CardHeader, Grid, TextareaAutosize } from '@material-ui/core';
 import MessageListStyles from './messagelist.style';
 import { ChatMessage, MessageListProps } from './interfaces';
 import { useRouter } from 'next/router';
@@ -77,7 +77,7 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <div className={classes.sendMessage} onClick={sendMessage}>Отправить</div>
+                        <Button className={classes.sendMessage} onClick={sendMessage}>Отправить</Button>
                     </div>
                 </div>
             </Grid>

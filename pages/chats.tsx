@@ -14,8 +14,8 @@ const chats = () => {
     return (
         <Fade in={true}>
             <Grid className={classes.content} container>
-                <ChatList store={store} xs={12} md={3} lg={2} mbVisible={true} />
-                <Grid item xs={12} md={7} lg={10}  className={classes.messages}>
+                <ChatList store={store} xs={12} sm={12} md={2} mbVisible={true} />
+                <Grid item xs={12} sm={12} md={6}  className={classes.messages}>
                     <MailOutlineIcon className={classes.message_icon} />
                     <div className={classes.text}>
                         Выберите, кому хотели бы написать

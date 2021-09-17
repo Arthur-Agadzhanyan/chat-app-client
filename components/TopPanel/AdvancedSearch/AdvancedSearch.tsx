@@ -1,6 +1,7 @@
 import { Typography, Box, TextField, Zoom, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
 import React, { FC } from 'react';
+import { getEmptyArray } from '../../../utils/getEmptyArray';
 import TopPanelStyles from '../top-panel.style';
 import { AdvancedSearchProps } from './interfaces';
 
@@ -12,6 +13,8 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
         stringify: (option: string) => option,
         limit: 100
     });
+
+    const emptyArr = getEmptyArray(67)
 
     return (
         <Zoom in={true}>
@@ -53,7 +56,7 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
                                 onChange={changeAge}
                                 variant='outlined'
                             >
-                                {[...Array(67).keys()].map((item, i) => (
+                                {emptyArr.map((item, i) => (
                                     <MenuItem key={`${item}_${i}`} value={i + 14}>{i + 14}</MenuItem>
                                 ))}
                             </Select>
@@ -70,7 +73,7 @@ const AdvancedSearch: FC<AdvancedSearchProps> = ({ countries, changeCountry, cha
                                 labelId="age_to-label"
                                 onChange={changeAge}
                             >
-                                {[...Array(67).keys()].map((item, i) => (
+                                {emptyArr.map((item, i) => (
                                     <MenuItem key={`${item}_${i}`} value={i + 14}>{i + 14}</MenuItem>
                                 ))}
                             </Select>
