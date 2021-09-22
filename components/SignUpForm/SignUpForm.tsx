@@ -18,13 +18,14 @@ const SignUp = () => {
 
     const { store:{auth} } = useContext(Context)
 
+    const namesReg = /^[\wА-Яа-я]*$/
+
     const [form, setForm] = useState<Form>({
         email: "", password: "", firstName: "", lastName: "", location: ""
     })
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date('2021-07-14'),
     );
-
     const [errors, setErrors] = useState<FormErrors>(initialErrors)
     const [countries, setCountries] = useState<string[]>([])
 
@@ -70,23 +71,33 @@ const SignUp = () => {
         e.preventDefault()
         setErrors(initialErrors)
 
+        
         if (!form.firstName.trim()) {
-            return setErrors({ ...errors, firstNameError: "Поле для ввода имени не должно быть пустым" })
+            return setErrors({ ...initialErrors, firstNameError: "Поле для ввода имени не должно быть пустым" })
         }
         if (!form.lastName.trim()) {
-            return setErrors({ ...errors, lastNameError: "Поле для ввода фамилии не должно быть пустым" })
-        }
+            return setErrors({ ...initialErrors, lastNameError: "Поле для ввода фамилии не должно быть пустым" })
+        } 
+
         if (!form.email.trim()) {
-            return setErrors({ ...errors, emailError: "Поле для ввода почты не должно быть пустым" })
+            return setErrors({ ...initialErrors, emailError: "Поле для ввода почты не должно быть пустым" })
         }
         if (!form.password.trim()) {
-            return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
+            return setErrors({ ...initialErrors, passwordError: "Поле для ввода пароля не должно быть пустым" })
         }
+
         if (!selectedDate) {
-            return setErrors({ ...errors, birthdayError: "Поле для ввода даты рождения не должно быть пустым" })
+            return setErrors({ ...initialErrors, birthdayError: "Поле для ввода даты рождения не должно быть пустым" })
         }
         if (!form.location || !form.location.trim()) {
-            return setErrors({ ...errors, locationError: "Поле для ввода города не должно быть пустым" })
+            return setErrors({ ...initialErrors, locationError: "Поле для ввода города не должно быть пустым" })
+        }
+
+        if(!namesReg.test(form.firstName)){
+            return setErrors({ ...initialErrors, firstNameError: "В поле ввода имени не может быть спец символов и пробелов" })
+        }
+        if(!namesReg.test(form.lastName)){
+            return setErrors({ ...initialErrors, lastNameError: "В поле ввода фамилии не может быть спец символов и пробелов" }) 
         }
 
         auth.signup(form.firstName, form.lastName, form.email, form.password, form.location, selectedDate).then(() => {
