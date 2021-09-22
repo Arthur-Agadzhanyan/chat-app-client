@@ -25,7 +25,7 @@ const users = () => {
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers("users",currentPage, 12,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
+            store.users.getUsers("users",currentPage, 12,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
@@ -114,7 +114,7 @@ const users = () => {
             }>
 
             {users && users.map((user: Friend, i: number) => (
-                <UserCard store={store} key={`${user}_${i}`} user={user} />
+                <UserCard store={store.users} key={`${user}_${i}`} user={user} />
             ))}
             {!users.length && !fetching &&(
                 <h1>Пользователи не найдены</h1>

@@ -14,7 +14,7 @@ const initialErrors = {
 const LoginForm = () => {
     const classes = LoginFormStyles()
 
-    const { store } = useContext(Context)
+    const { store:{auth} } = useContext(Context)
     const Router = useRouter()
 
     const [form, setForm] = useState<Form>({
@@ -33,9 +33,9 @@ const LoginForm = () => {
             return setErrors({ ...errors, passwordError: "Поле для ввода пароля не должно быть пустым" })
         }
 
-        store.login(form.email, form.password).then(() => {
-            if (store.loginErrors) {
-                setErrors(store.loginErrors)
+        auth.login(form.email, form.password).then(() => {
+            if (auth.loginErrors) {
+                setErrors(auth.loginErrors)
             }
         })
     }

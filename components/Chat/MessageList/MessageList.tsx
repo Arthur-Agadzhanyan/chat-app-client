@@ -8,7 +8,7 @@ import { ChatMessage, MessageListProps } from './interfaces';
 import { useRouter } from 'next/router';
 import { observer } from 'mobx-react-lite';
 
-const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
+const MessageList: FC<MessageListProps> = ({chatsStore,authStore,sm,lg,md,xs}) => {
     const router = useRouter()
     const chatBottomDiv = React.createRef<HTMLDivElement>();
     const classes = MessageListStyles()
@@ -23,7 +23,7 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
             chatBottomDiv.current.scrollIntoView({ behavior: "smooth" });
         }
         if(id){
-            store.getChat(id as string)
+            chatsStore.getChat(id as string)
         }
     }, [id])
 
@@ -33,7 +33,7 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
 
     const sendMessage = ()=>{
         if(messageInput.trim()){
-            store.sendMessageOnChat(messageInput,id as string, "100")
+            chatsStore.sendMessageOnChat(messageInput,id as string, "100")
         }
     }
 
@@ -53,9 +53,9 @@ const MessageList: FC<MessageListProps> = ({store,sm,lg,md,xs}) => {
                 </div>
                 <div className={classes.messageContainer}>
                     <div className={classes.messageList}>
-                        {store.messages && store.messages.map((msg: ChatMessage,i:number)=>{
+                        {chatsStore.messages && chatsStore.messages.map((msg: ChatMessage,i:number)=>{
                             // TODO: Сделать модель для сообщения
-                            if(store.user._id === msg.author._id){
+                            if(authStore.user._id === msg.author._id){
                                 return <MyMessage key={`${msg}_${i}`} msg={msg}/>
                             }
                             return <Message key={`${msg}_${i}`} msg={msg}/>

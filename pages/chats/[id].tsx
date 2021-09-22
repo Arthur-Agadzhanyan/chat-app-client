@@ -9,14 +9,14 @@ import ChatList from '../../components/Chat/ChatList/ChatList';
 import MessageList from '../../components/Chat/MessageList/MessageList';
 
 const chat = () => {
-    const { store } = useContext(Context)
+    const { store:{chats,auth} } = useContext(Context)
     const classes = ChatsStyles()
 
     return (
         <Grid className={classes.content} container>
 
-            <ChatList store={store} xs={3} sm={3} md={2} mbVisible={false} />
-            <MessageList store={store} xs={12} sm={12} md={6}/>
+            <ChatList store={chats} xs={3} sm={3} md={2} mbVisible={false} />
+            <MessageList chatsStore={chats} authStore={auth} xs={12} sm={12} md={6}/>
 
         </Grid>
     );

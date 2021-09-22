@@ -30,7 +30,7 @@ const friends = () => {
     useEffect(() => {
         if (fetching) {
             console.log('fetching')
-            store.getUsers("friends",currentPage, 10,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
+            store.users.getUsers("friends",currentPage, 10,advancedForm.ageFrom, advancedForm.ageTo, advancedForm.location,advancedForm.name)
                 .then(response => {
                     setUsers([...users, ...response.users])
                     setCurrentPage(prev => prev + 1)
@@ -119,7 +119,7 @@ const friends = () => {
             }>
 
             {users && users.map((user: Friend, i: number) => (
-                <UserCard store={store} key={`${user}_${i}`} user={user} friend/>
+                <UserCard store={store.users} key={`${user}_${i}`} user={user} friend/>
             ))}
 
             {!fetching && !users.length && (

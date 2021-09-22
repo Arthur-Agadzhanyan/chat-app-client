@@ -15,7 +15,7 @@ const SendMessageModal: FC<SendMsgModalProps> = ({open, handleClose, user}) => {
     const Router = useRouter()
 
     const [message, setMessage] = useState("");
-    const {store} = useContext(Context)
+    const {store:{chats}} = useContext(Context)
 
     const sendMessage = (e: FormEvent)=>{
         e.preventDefault()
@@ -26,7 +26,7 @@ const SendMessageModal: FC<SendMsgModalProps> = ({open, handleClose, user}) => {
         }
 
         console.log(message)
-        store.sendPrivateMessage(message, [user._id]).then((data)=>{
+        chats.sendPrivateMessage(message, [user._id]).then((data)=>{
             Router.push(`/chats/${data._id}`)
         })
     }

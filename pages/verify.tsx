@@ -6,15 +6,15 @@ import { Context } from './_app';
 import { useRouter } from "next/router";
 
 const verify = () => {
-    const {store} = useContext(Context)
+    const {store:{auth}} = useContext(Context)
     const Router = useRouter()
 
-    if(store.user.verified){
+    if(auth.user.verified){
         Router.replace("/chats")
     }
     return (
         <div>
-            <VerificationAlert store={store} />
+            <VerificationAlert store={auth} />
         </div>
     );
 }

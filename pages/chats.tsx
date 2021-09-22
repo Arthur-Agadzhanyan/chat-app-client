@@ -8,13 +8,13 @@ import ChatList from '../components/Chat/ChatList/ChatList';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 
 const chats = () => {
-    const { store } = useContext(Context)
+    const { store:{chats} } = useContext(Context)
     const classes = ChatsStyles()
 
     return (
         <Fade in={true}>
             <Grid className={classes.content} container>
-                <ChatList store={store} xs={12} sm={12} md={2} mbVisible={true} />
+                <ChatList store={chats} xs={12} sm={12} md={2} mbVisible={true} />
                 <Grid item xs={12} sm={12} md={6}  className={classes.messages}>
                     <MailOutlineIcon className={classes.message_icon} />
                     <div className={classes.text}>

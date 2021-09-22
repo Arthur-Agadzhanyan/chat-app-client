@@ -9,22 +9,22 @@ const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
 
     if (typeof window !== "undefined") {
-      const { store } = useContext(Context)
+      const { store:{auth, chats} } = useContext(Context)
       const Router = useRouter()
       const socket = useRef<WebSocket>()
 
       useEffect(()=>{
-        if(store.isAuth && store.user && store.user.verified){
+        if(auth.isAuth && auth.user && auth.user.verified){
           connect()
         }
-      },[store.isAuth]) 
+      },[auth.isAuth]) 
 
-      if (!localStorage.getItem("token") && !store.isLoading && !store.isAuth) {
+      if (!localStorage.getItem("token") && !auth.isLoading && !auth.isAuth) {
         Router.replace("/")
         return null
       }
 
-      else if (store.user.length && !store.user.verified && Router.pathname !== '/verify') {
+      else if (auth.user.length && !auth.user.verified && Router.pathname !== '/verify') {
         Router.replace("/verify")
         return null
       }
@@ -41,11 +41,11 @@ const withAuth = (WrappedComponent: any) => {
           // Отработает когда мы получаем какое-либо сообщение
           socket.current.onmessage= (event)=>{
             const data = event.data
-            // if(data[0] === "{"){
-            //   console.log("aaa");
+            if(data[0] === "{"){
+              console.log("aaa");
               
-            //   store.setMessages([...store.messages, ...(JSON.parse(data).messages)])
-            // }
+              chats.setMessages([...chats.messages, ...(JSON.parse(data).messages)])
+            }
             console.log(data)
           }
 
@@ -68,7 +68,7 @@ const withAuth = (WrappedComponent: any) => {
       
 
       return (<>
-        <Header store={store} />
+        <Header store={auth} />
         <WrappedComponent {...props} />
         <MobileNavigation/>
       </>)

@@ -1,8 +1,10 @@
 import { GridSize } from "@material-ui/core";
+import ChatsStore from "../../../store/chats";
 import Store from "../../../store/store";
 
 export interface MessageListProps{
-    store: Store,
+    chatsStore: ChatsStore,
+    authStore: Store
     xs?: boolean | GridSize | undefined,
     sm?: boolean | GridSize | undefined,
     md?: boolean | GridSize | undefined,

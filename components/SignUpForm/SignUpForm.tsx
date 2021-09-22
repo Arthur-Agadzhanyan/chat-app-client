@@ -16,7 +16,7 @@ const initialErrors = {
 const SignUp = () => {
     const classes = SignUpFormStyles()
 
-    const { store } = useContext(Context)
+    const { store:{auth} } = useContext(Context)
 
     const [form, setForm] = useState<Form>({
         email: "", password: "", firstName: "", lastName: "", location: ""
@@ -89,9 +89,9 @@ const SignUp = () => {
             return setErrors({ ...errors, locationError: "Поле для ввода города не должно быть пустым" })
         }
 
-        store.signup(form.firstName, form.lastName, form.email, form.password, form.location, selectedDate).then(() => {
-            if (store.loginErrors) {
-                setErrors(store.loginErrors)
+        auth.signup(form.firstName, form.lastName, form.email, form.password, form.location, selectedDate).then(() => {
+            if (auth.loginErrors) {
+                setErrors(auth.loginErrors)
             }
         })
     }

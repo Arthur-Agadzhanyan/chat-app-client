@@ -5,6 +5,7 @@ const ChatsStyles = makeStyles((theme: Theme) =>
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            border: "1px solid #ccc",
             height: "calc(100vh - 48px)",
             [theme.breakpoints.down('sm')]: {
                 height: "calc(100vh - 48px)",
@@ -22,7 +23,7 @@ const ChatsStyles = makeStyles((theme: Theme) =>
             position: "relative",
             background: "#fff",
             height: "100%",
-            borderLeft: "none",
+            // borderLeft: "none",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

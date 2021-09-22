@@ -1,20 +1,42 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-import Store from '../store/store'
 import { createContext, useContext, useEffect } from 'react'
+import type { AppProps } from 'next/app'
+
+// STORES
+import Store from '../store/store'
+import UsersStore from '../store/users'
+import ChatsStore from '../store/chats'
+
 import { observer } from 'mobx-react-lite'
+
+// MATERIAL-UI STYLES
 import theme from '../theme'
 import { ThemeProvider } from '@material-ui/core'
+
+// MOMENT.JS
 import 'moment/locale/ru'
 
+//GLOBAL STYLES
+import '../styles/globals.css'
+
 interface State {
-  store: Store
+  store:{
+    auth: Store
+    users: UsersStore,
+    chats: ChatsStore
+  },  
 }
 
-const store = new Store()
+const auth = new Store()
+const users = new UsersStore()
+const chats = new ChatsStore()
 
-export const Context = createContext({
-  store
+export const Context = createContext<State>({
+  store:{
+    auth,
+    users,
+    chats
+  },
+ 
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -23,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
 
     if (localStorage.getItem('token')) {
-      store.checkAuth().then(()=>console.log(store))
+      store.auth.checkAuth().then(()=>console.log(store))
     }
     /* Удаление CSS, внедренного на стороне сервера.*/
     const jssStyles = document.querySelector('#jss-server-side'); 
