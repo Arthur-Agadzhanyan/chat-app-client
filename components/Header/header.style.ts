@@ -1,4 +1,4 @@
-import { makeStyles, Theme, createStyles } from '@material-ui/core';
+import { makeStyles, Theme, createStyles, darken } from '@material-ui/core';
 
 const HeaderStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,7 +34,7 @@ const HeaderStyles = makeStyles((theme: Theme) =>
             padding: "0px 12px 0px 15px",
             transition: "all .2s linear",
             '&:hover': {
-                background: theme.palette.primary.dark
+                background: darken(theme.palette.primary.main, .15)
             }
         },
         avatar__text:{

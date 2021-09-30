@@ -3,18 +3,13 @@ import { makeAutoObservable } from 'mobx';
 import { VerifiedUser, NotVerifiedUser } from './../models/User';
 import $api from '../http/index';
 import AuthService from '../services/AuthService';
-import UsersService from '../services/UsersService';
 import { LoginError } from '../models/LoginError';
-import MessangerService from '../services/MessangerService';
 
 export default class Store {
     user = {} as VerifiedUser | NotVerifiedUser
     isAuth = false
     isLoading = false
     loginErrors = {} as LoginError
-
-    //TEST
-    messages: any = []
 
     constructor() {
         makeAutoObservable(this)
@@ -33,11 +28,6 @@ export default class Store {
     }
     setLoginError(error: LoginError){
        this.loginErrors = error
-    }
-
-    //TEST
-    setMessages(msgs: any){
-        this.messages = msgs
     }
 
     // Для регистрации аккаунта

@@ -27,11 +27,13 @@ const UserCardStyles = makeStyles((theme: Theme) =>
             
         },
         sendMessageBtn:{
+            color: theme.palette.primary.dark,
             [theme.breakpoints.down('xs')]:{
                 padding: "3px 0px"
             }
         },
         addFriendBtn:{
+            color: theme.palette.primary.dark,
             [theme.breakpoints.down('xs')]:{
                 padding: "0px"
             }

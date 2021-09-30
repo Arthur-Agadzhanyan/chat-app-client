@@ -3,16 +3,12 @@ import { AppBar, Toolbar, Typography, Grid, Avatar, Box, Paper, Menu, MenuItem }
 import Link from "next/link"
 import { HeaderProps } from './interfaces';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import HeaderStyles from './header.style';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import SearchIcon from '@material-ui/icons/Search';
-
-// import EmailIcon from '@material-ui/icons/Email';
-// import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-// import NotificationsIcon from '@material-ui/icons/Notifications';
+import { observer } from 'mobx-react-lite';
 
 const Header: FC<HeaderProps> = ({ store }) => {
     const classes = HeaderStyles()
@@ -113,4 +109,4 @@ const Header: FC<HeaderProps> = ({ store }) => {
     );
 }
 
-export default Header;
+export default observer(Header);

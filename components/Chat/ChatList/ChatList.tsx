@@ -1,6 +1,5 @@
-import { Grid, TextField, makeStyles, Theme, createStyles } from '@material-ui/core';
+import { Grid, TextField} from '@material-ui/core';
 import React, { FC, useEffect, useState } from 'react';
-import ChatLink from '../../ChatLink/ChatLink';
 import { ChatListStyles } from './chat-list.style';
 import { ChatListProps } from './interfaces';
 

@@ -1,10 +1,4 @@
-import { API_URL } from './../http/index';
 import { makeAutoObservable } from 'mobx';
-import { VerifiedUser, NotVerifiedUser } from './../models/User';
-import $api from '../http/index';
-import AuthService from '../services/AuthService';
-import UsersService from '../services/UsersService';
-import { LoginError } from '../models/LoginError';
 import MessangerService from '../services/MessangerService';
 
 export default class ChatsStore {
